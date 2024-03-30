@@ -49,5 +49,29 @@ async function getCourse() {
   console.log(course);
 }
 
-getCourse();
+// getCourse();
+
+// --------Update-------
+async function updateCourse(id){
+  const course = await Course.findById(id);
+  if (!course) return;
+  console.log(course);
+  course.rating = 10;
+  await course.save();
+
+}
+
+// updateCourse("6606808c9a659933b5636ee0");
+
+// ----------------Delete--------------------
+
+async function deleteCourse(id){
+  const course = await Course.findByIdAndDelete(id);
+  if (!course) return;
+  console.log(course);
+}
+
+//  deleteCourse("6606808c9a659933b5636ee0");
+
+
 
