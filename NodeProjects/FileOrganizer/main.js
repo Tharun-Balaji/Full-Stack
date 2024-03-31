@@ -12,7 +12,7 @@ const inputArr = process.argv.slice(2);
 const command = inputArr[0];
 
 let types = {
-    media: ["mp4", "mkv"],
+    media: ["mp4", "mkv","jpg", "jpeg", "png"],
     archives: ['zip', '7z', 'rar', 'tar', 'gz', 'ar', 'iso', "xz"],
     documents: ['docx', 'doc', 'pdf', 'xlsx', 'xls', 'odt', 'ods', 'odp', 'odg', 'odf', 'txt', 'ps', 'tex'],
     app: ['exe', 'dmg', 'pkg', "deb"]
@@ -91,6 +91,10 @@ function OrganizeHelper(src, dest){
             // console.log(fileAddress);
             // console.log(stats);
             const category =  getCategory(file);
+            if (category){
+              console.log(file, "belongs to ---->", category);
+              sendFiles(fileAddress, dest, category);
+            }
         }
     })
 }
@@ -107,5 +111,26 @@ function getCategory(name) {
             return type;
         }
     }
+
+}
+
+function sendFiles( src, dest, category){
+
+    // path to category folder
+    const categoryPath = path.join(dest, category);
+
+    // create category folder
+    if (!fs.existsSync(categoryPath)){
+      fs.mkdirSync(categoryPath);
+    }
+
+
+    // creating file path
+    const fileName = path.basename(src);
+    const destPath = path.join(categoryPath, fileName);
+
+
+    // copying Files
+    fs.copyFileSync(src, destPath);
 
 }
