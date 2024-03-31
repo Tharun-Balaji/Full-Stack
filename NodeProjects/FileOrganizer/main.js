@@ -35,6 +35,17 @@ switch (command) {
 
 function treeFn(dirPath){
     // console.log("Tree command Implemented for" ,dirPath);
+    if ( dirPath === undefined){
+        console.log("Please 🙏 Enter the directory path");
+        return;
+    }
+    //checking if the directory exists
+    if ( !fs.existsSync(dirPath) ){
+        console.log("Please 🙏 Enter the correct directory path");
+        return;
+    }
+
+    TreeHelper(dirPath, "");
    
 }
 
@@ -137,4 +148,29 @@ function sendFiles( src, dest, category){
     // Deleting Files in Src Folder
     fs.unlinkSync(src); 
 
+
+    console.log( src, "Copied to" , destPath )
+
+}
+
+
+function TreeHelper(directoryPath,indentation) {
+
+    // Checking weather its file or Folder
+    const stats = fs.lstatSync(directoryPath);
+    // console.log(stats);
+    if (stats.isFile()) {
+        // console.log(directoryPath);
+        const fileName = path.basename(directoryPath);
+        console.log(indentation+"├──" + fileName);
+    }else{
+        const dirName = path.basename(directoryPath);
+        console.log(indentation+"└──" + dirName);
+        const children = fs.readdirSync(directoryPath);
+        children.forEach( (child) => {
+            const childPath = path.join(directoryPath, child);
+            // console.log(childPath);
+            TreeHelper(childPath,indentation+"\t");
+        } ); 
+    }
 }
