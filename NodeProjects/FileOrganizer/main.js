@@ -1,4 +1,5 @@
 
+const { log } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -58,7 +59,8 @@ function organizeFn(dirPath){
         fs.mkdirSync(DestinationPath);
     }
 
-
+    // calling the Helper function to organize
+    OrganizeHelper(dirPath,DestinationPath);
 
 }
 
@@ -73,3 +75,37 @@ function helpFn(){
 }
 
 
+function OrganizeHelper(src, dest){
+
+    // Reading all the FIles in the folder
+    const files = fs.readdirSync(src);
+    // console.log(files);
+
+    //Looping through the files
+    files.forEach((file) => {
+        const fileAddress = path.join(src, file);
+        const stats = fs.lstatSync(fileAddress);
+        // console.log(stats);
+        if (stats.isFile()) {
+            // console.log(file);
+            // console.log(fileAddress);
+            // console.log(stats);
+            const category =  getCategory(file);
+        }
+    })
+}
+
+
+
+function getCategory(name) {
+    const ext = path.extname(name).slice(1);
+    // console.log(ext);
+    for ( const type in types ){
+        // console.log(type);
+        if ( types[type].includes(ext) ){
+            // console.log(type);
+            return type;
+        }
+    }
+
+}
