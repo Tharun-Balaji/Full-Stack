@@ -133,4 +133,8 @@ function sendFiles( src, dest, category){
     // copying Files
     fs.copyFileSync(src, destPath);
 
+
+    // Deleting Files in Src Folder
+    fs.unlinkSync(src); 
+
 }
