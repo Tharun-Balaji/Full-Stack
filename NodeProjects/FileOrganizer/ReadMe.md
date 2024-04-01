@@ -86,7 +86,7 @@ Here are some practical demonstrations of the commands:
    node main.js tree ~/Documents
    ```
 
-   This command displays the directory tree structure of your Documents folder (replace `~/Documents` with the actual path if needed).
+   This command displays the directory tree structure of your Documents folder (replace `~/Documents` with the actual path like `C:\Users\Tharunbalaji\Downloads` if needed).
 
 **Additional Considerations**
 
