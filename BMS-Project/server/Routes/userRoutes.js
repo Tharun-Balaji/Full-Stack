@@ -3,6 +3,7 @@ const router = require('express').Router();
 const User = require("../models/userModels");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require('../Middleware/authMiddleware');
 
 router.post("/register", async(request, response) => {
     try {
@@ -78,6 +79,22 @@ router.post("/login", async(request, response) => {
 
     } catch (error) {
         console.log(error);
+        response.status(500).send({
+            success : false,
+            message : "Something went wrong. Please try again later"
+        })
+    }
+})
+
+router.get("/get-current-user", authMiddleware ,async(request, response) => {
+    try{
+        const user = User.findById(request.body.userId).select("-password");
+        response.status(200).send({
+            success : true,
+            message : "User fetched successfully",
+            data : user
+        })
+    }catch (error) {
         response.status(500).send({
             success : false,
             message : "Something went wrong. Please try again later"
