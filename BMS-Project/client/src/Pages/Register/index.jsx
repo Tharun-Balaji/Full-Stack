@@ -9,12 +9,12 @@ const Register = () => {
 
   return (
     <div className="flex justify-center h-screen items-center bg-primary">
-      <div className="card p - 3 w - 400">
-        <h1 className="text - xl mb - 1">
+      <div className="card p-3 w-400">
+        <h1 className="text-xl mb-1">
           Welcome to Scaler Shows! Please Register
         </h1>
         <hr />
-        <Form layout="vertical" className="mt - 1" onFinish={() => {}}>
+        <Form layout="vertical" className="mt-1" onFinish={() => {}}>
           <Form.Item
             label="Name"
             name="name"
