@@ -1,15 +1,34 @@
 import React from 'react'
-import {Form} from "antd";
+import {Form, message} from "antd";
 import Button from "../../components/Button";
-import { Link  } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
+import { LoginUser } from '../../apiCalls/Users';
 
 export default function Login() {
+
+  const Navigate = useNavigate();
+
+  async function onFinish(values) {
+    try {
+      const response = await LoginUser(values);
+
+      if ( response.success ){
+        message.success(response.message);
+        Navigate("/");
+      }else{
+        message.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className = "flex justify-center h-screen items-center bg-primary">
     <div className = "card p-3 w-400">
       <h1 className = "text-xl mb-1">Welcome Again! Please Login</h1>
       <hr />
-      <Form layout = "vertical" className = "mt-1" onFinish = {() => {}}>
+      <Form layout = "vertical" className = "mt-1" onFinish = {(values) => {onFinish(values)}}>
         <Form.Item
           label = "Email"
           name = "email"
