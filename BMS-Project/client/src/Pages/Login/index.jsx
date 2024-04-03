@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Form, message} from "antd";
 import Button from "../../components/Button";
 import { Link, useNavigate  } from "react-router-dom";
@@ -14,6 +14,7 @@ export default function Login() {
 
       if ( response.success ){
         message.success(response.message);
+        localStorage.setItem('token', response.data);
         Navigate("/");
       }else{
         message.error(response.message);
@@ -22,6 +23,12 @@ export default function Login() {
       console.error(error);
     }
   }
+
+  useEffect(function(){
+    if ( localStorage.getItem('token') ){
+      Navigate("/");
+    }
+  },[])
 
   return (
     <div className = "flex justify-center h-screen items-center bg-primary">
