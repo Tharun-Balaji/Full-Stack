@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
-const { model } = require('mongoose');
 const User = require("../models/userModels");
+const bcrypt = require("bcryptjs");
 
 router.post("/register", async(request, response) => {
     try {
@@ -15,6 +15,13 @@ router.post("/register", async(request, response) => {
             )
             return ;
         }
+
+        // Hash the password before Storing the password
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(request.body.password, salt);
+        request.body.password = hashedPassword;
+
         const newUser = new User(request.body);
         const savedUser = await newUser.save();
 
