@@ -17,3 +17,16 @@ export async function LoginUser(payLoad){
         return error;
     }
 }
+
+export async function getCurrentUser(payLoad){
+    try {
+        const response = await axiosInstance.get("/get-current-user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        });
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
