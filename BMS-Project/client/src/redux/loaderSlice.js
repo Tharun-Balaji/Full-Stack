@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const loaderSlice = createSlice({
   name: "loader",
   initialState: {
-    loading: true,
+    loading: false,
   },
   reducers: {
     ShowLoading: (state) => {
