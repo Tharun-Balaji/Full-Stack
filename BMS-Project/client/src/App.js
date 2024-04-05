@@ -1,18 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Pages
+import { useSelector } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Admin from './Pages/Admin';
 import Home from './Pages/Home/index';
 import Login from './Pages/Login/index';
+import Profile from './Pages/Profile';
 import Register from './Pages/Register/index';
-
-// Styles
+import ProtectedRoute from './components/protectedRoute';
 import "./stylesheets/alignments.css";
 import "./stylesheets/custom.css";
 import "./stylesheets/form-elements.css";
 import "./stylesheets/sizes.css";
 import "./stylesheets/theme.css";
-import ProtectedRoute from './components/protectedRoute';
-import { useSelector } from 'react-redux';
 
 function App() {
 
@@ -36,6 +34,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
               </ProtectedRoute>
             }
           />
