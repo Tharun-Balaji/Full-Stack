@@ -18,11 +18,15 @@ const movieSchema = new mongoose.Schema({
         required: true
     },
     poster: {
-        type: Number,
+        type: String,
         required: true
     },
-    releasedDate: {
+    releaseDate: {
         type: Date,
+        required: true
+    },
+    duration:{
+        type: Number,
         required: true
     }
 })
