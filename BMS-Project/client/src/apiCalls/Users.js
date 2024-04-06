@@ -2,7 +2,7 @@ import {axiosInstance} from "./index";
 
 export async function RegisterUser(payLoad){
     try {
-        const response = await axiosInstance.post("/register",payLoad);
+        const response = await axiosInstance.post("/api/user/register",payLoad);
         return response.data;
     } catch (error) {
         return error;
@@ -11,7 +11,7 @@ export async function RegisterUser(payLoad){
 
 export async function LoginUser(payLoad){
     try {
-        const response = await axiosInstance.post("/login",payLoad);
+        const response = await axiosInstance.post("/api/user/login",payLoad);
         return response.data;
     } catch (error) {
         return error;
@@ -20,7 +20,7 @@ export async function LoginUser(payLoad){
 
 export async function getCurrentUser(payLoad){
     try {
-        const response = await axiosInstance.get("/get-current-user", {
+        const response = await axiosInstance.get("/api/user/get-current-user", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           }
