@@ -1,6 +1,6 @@
-import React from "react";
 
-function Button({ title, onClick, variant, disabled, fullWidth, type }) {
+
+export default function Button({ title, onClick, variant, disabled, fullWidth, type }) {
   let className = "bg-primary p-1 text-white";
 
   if (fullWidth) {
@@ -25,4 +25,3 @@ function Button({ title, onClick, variant, disabled, fullWidth, type }) {
   );
 }
 
-export default Button;
