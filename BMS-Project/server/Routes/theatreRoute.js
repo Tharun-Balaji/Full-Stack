@@ -91,4 +91,112 @@ router.delete("/delete-theatre", authMiddleware, async (request, response) => {
   }
 });
 
+// Show APIs
+
+//Create API
+router.post("/add-show", authMiddleware, async (request, response) => {
+  try {
+    const newShow = new Show(request.body);
+    await newShow.save();
+    response.status(200).send({
+      success: true,
+      message: "Show added successfully!",
+    });
+  } catch (err) {
+    response.status(500).send({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+
+
+// To get All Shows fro a specific Theatre
+router.post(
+  "/get-all-shows-by-theatre",
+  authMiddleware,
+  async (request, response) => {
+    try {
+      const shows = await Show.find({
+        theatre: request.body.theatreId,
+      }).populate("movie");
+      response.send({
+        success: true,
+        message: "Shows fetched successfully",
+        data: shows,
+      });
+    } catch (err) {
+      response.status(500).send({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
+
+
+
+// To Delete a Show
+router.delete("/delete-show", authMiddleware, async (request, response) => {
+  try {
+    await Show.findByIdAndDelete(request.query.showId);
+    response.send({
+      success: true,
+      message: "Show Deleted Successfully",
+    });
+  } catch (err) {
+    response.status(500).send({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+
+//To Get all the Theatres that Screen a Specific Movie
+router.post(
+  "/get-all-theatres-by-movie",
+  authMiddleware,
+  async (request, response) => {
+    try {
+      const { movieId, date } = request.body;
+
+      // get all shows for the movie
+      const shows = await Show.find({ movie: movieId, date })
+        .populate("theatre")
+        .sort({ createdAt: -1 });
+
+      // get all unique theatres from the shows
+      let uniqueTheatres = [];
+      shows.forEach((show) => {
+        const theatre = uniqueTheatres.find(
+          (theatre) => theatre._id === show.theatre._id
+        );
+
+        if (!theatre) {
+          const showsForThisTheatre = shows.filter(
+            (showObj) => showObj.theatre._id == show.theatre._id
+          );
+          uniqueTheatres.push({
+            ...show.theatre._doc,
+            shows: showsForThisTheatre,
+          });
+        }
+      });
+
+      response.send({
+        success: true,
+        message: "Theatres fetched successfully",
+        data: uniqueTheatres,
+      });
+    } catch (err) {
+      response.status(500).send({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
+
 module.exports = router;
