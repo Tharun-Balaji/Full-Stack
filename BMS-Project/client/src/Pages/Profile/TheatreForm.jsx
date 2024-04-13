@@ -1,7 +1,7 @@
 import { Form, message, Modal } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddTheatre , UpdateTheatre} from "../../apiCalls/theatres";
+import { AddTheatre, UpdateTheatre } from "../../apiCalls/theatres";
 import Button from "../../components/Button.jsx";
 import { HideLoading, ShowLoading } from "../../redux/loaderSlice";
 
@@ -14,7 +14,7 @@ export default function TheatreForm({
 }) {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-   async function onFinish (values){
+  async function onFinish(values) {
     values.owner = user._id;
     try {
       dispatch(ShowLoading());
@@ -40,7 +40,7 @@ export default function TheatreForm({
       dispatch(HideLoading());
       message.error(error.message);
     }
-  };
+  }
 
   return (
     <Modal

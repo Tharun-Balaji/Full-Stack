@@ -19,6 +19,9 @@ export default function Shows({ setOpenShowsModal, theatre }) {
   const [movies, setMovies] = useState([]);
 
   async function getData() {
+
+    // console.log(theatre)
+
     try {
       dispatch(ShowLoading());
       const moviesResponse = await GetAllMovies();
@@ -28,9 +31,11 @@ export default function Shows({ setOpenShowsModal, theatre }) {
         message.error(moviesResponse.message);
       }
 
+      
       const showsResponse = await GetAllShowsByTheatre({
         theatreId: theatre._id,
       });
+
       if (showsResponse.success) {
         setShows(showsResponse.data);
       } else {
@@ -46,6 +51,7 @@ export default function Shows({ setOpenShowsModal, theatre }) {
   async function handleAddShow(showData) {
     try {
       dispatch(ShowLoading());
+      console.log(showData)
       const response = await AddShow({
         ...showData,
         theatre: theatre._id,
@@ -197,7 +203,8 @@ export default function Shows({ setOpenShowsModal, theatre }) {
                 name="time"
                 rules={[{ required: true, message: "Please input show time!" }]}
               >
-                <input type="time" />
+                <input type="time"  />
+
               </Form.Item>
             </Col>
 

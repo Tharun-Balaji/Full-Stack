@@ -1,10 +1,13 @@
 import { useSelector } from 'react-redux';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import Admin from './Pages/Admin';
 import Home from './Pages/Home/index';
 import Login from './Pages/Login/index';
 import Profile from './Pages/Profile';
 import Register from './Pages/Register/index';
+import TheatresForMovie from './Pages/TheatresForMovie/index';
 import ProtectedRoute from './components/protectedRoute';
 import "./stylesheets/alignments.css";
 import "./stylesheets/custom.css";
@@ -50,6 +53,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Admin />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/movie/:id"
+            element={
+              <ProtectedRoute>
+                <TheatresForMovie />
               </ProtectedRoute>
             }
           />

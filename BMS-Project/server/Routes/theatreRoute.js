@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Theatre = require("../models/theatreModel");
 const authMiddleware = require("../Middleware/authMiddleware");
+const Show = require("../models/showModel");
 
 // Create
 router.post("/add-theatre", authMiddleware, async (request, response) => {
@@ -97,6 +98,7 @@ router.delete("/delete-theatre", authMiddleware, async (request, response) => {
 router.post("/add-show", authMiddleware, async (request, response) => {
   try {
     const newShow = new Show(request.body);
+    console.log(newShow)
     await newShow.save();
     response.status(200).send({
       success: true,

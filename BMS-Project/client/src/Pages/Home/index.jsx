@@ -3,7 +3,7 @@ import { Row, Col, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../redux/loaderSlice.js";
-import { GetAllMovies } from "../../apicalls/movies.js";
+import { GetAllMovies } from "../../apiCalls/movies.js";
 import moment from "moment";
 
 export default function Home() {

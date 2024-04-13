@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HideLoading, ShowLoading } from "../../redux/loaderSlice.js";
 import { message, Table } from "antd";
 import TheatreForm from "./TheatreForm.jsx";
+import Shows from "./Shows.jsx";
 import {
   DeleteTheatre,
   GetAllTheatresByOwner,
@@ -12,12 +13,11 @@ import {
 
 export default function TheatresList() {
   const { user } = useSelector((state) => state.users);
-  const [showTheatreFormModal = false, setShowTheatreFormModal] =
-    useState(false);
+  const [showTheatreFormModal = false, setShowTheatreFormModal] = useState(false);
   const [selectedTheatre, setSelectedTheatre] = useState(null);
   const [formType, setFormType] = useState("add");
   const [theatres, setTheatres] = useState([]);
-  // const [openShowsModal, setOpenShowsModal] = useState(false);
+  const [openShowsModal, setOpenShowsModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -109,8 +109,8 @@ export default function TheatresList() {
               <span
                 className="underline"
                 onClick={() => {
-                  // setSelectedTheatre(rowData);
-                  // setOpenShowsModal(true);
+                  setSelectedTheatre(rowData);
+                  setOpenShowsModal(true);
                 }}
               >
                 Shows
@@ -152,12 +152,12 @@ export default function TheatresList() {
         />
       )}
 
-      {/* {openShowsModal && (
+      {openShowsModal && (
         <Shows
           setOpenShowsModal={setOpenShowsModal}
           theatre={selectedTheatre}
         />
-      )} */}
+      )}
     </div>
   );
 }

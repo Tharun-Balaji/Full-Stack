@@ -69,7 +69,7 @@ export async function AddShow(payload) {
 
 // To get all the shows for a specific Theatre
 export async function GetAllShowsByTheatre(payload) {
-  try {
+    try {
     const response = await axiosInstance.post(
       "/api/theatre/get-all-shows-by-theatre",
       payload
