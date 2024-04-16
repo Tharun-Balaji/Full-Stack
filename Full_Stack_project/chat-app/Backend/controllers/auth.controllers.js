@@ -1,7 +1,11 @@
 
 
-export function signUp(request,response){
-    console.log("signUp User");
+export async function signUp(request,response){
+    try {
+        const { fullName, username, password, confirmPassword, gender } = request.body;
+    } catch (error) {
+        
+    }
 }
 
 export function login(request,response) {
