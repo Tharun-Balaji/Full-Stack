@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Theatre = require("../models/theatreModel");
-const authMiddleware = require("../Middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 const Show = require("../models/showModel");
 
 // Create
