@@ -14,6 +14,7 @@ import "./stylesheets/custom.css";
 import "./stylesheets/form-elements.css";
 import "./stylesheets/sizes.css";
 import "./stylesheets/theme.css";
+import BookShow from './Pages/BookShow';
 
 function App() {
 
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Admin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/book-show/:id"
+            element={
+              <ProtectedRoute>
+                <BookShow />
               </ProtectedRoute>
             }
           />
