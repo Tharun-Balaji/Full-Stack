@@ -69,4 +69,28 @@ router.post('/add-movie', authMiddleware, async (req, res) => {
     }
   });
 
+  // Get Movie by Id
+  router.get("/get-movie-by-id/:movieId", authMiddleware, async (request, response) => {
+    try {
+      const movie = await Movie.findById(request.params.movieId);
+      if (movie) {
+        response.status(200).send({
+          success: true,
+          message: "Movie Fetched Successfully",
+          data: movie
+        });
+      } else {
+        response.status(404).send({
+          success: false,
+          message: "Movie Not found"
+        });
+      }
+    } catch (err) {
+      response.status(500).send({
+        success: false,
+        message: err.message
+      });
+    }
+  });
+
 module.exports = router;
