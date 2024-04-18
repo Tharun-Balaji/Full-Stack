@@ -105,3 +105,17 @@ export async function GetAllTheatresByMovie(payload) {
     return err.response;
   }
 }
+
+// To get show by id
+
+export const GetShowById = async (payload) => {
+  try {
+    const response = await axiosInstance.post(
+      "/api/theatre/get-show-by-id",
+      payload
+    );
+    return response.data;
+  } catch (err) {
+    return err.response;
+  }
+};
