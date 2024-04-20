@@ -89,5 +89,16 @@ export async function login(request, response) {
 }
 
 export function logout(request, response) {
-  console.log("logout User");
+  try {
+    response.cookie("jwt","",{maxAge:0});
+    // response.clearCookie("token");
+    return response.status(200).json({
+      message: "Successfully logged out",
+    });
+  } catch (error) {
+    console.log("Error in Logout Controller",error.message);
+    return response.send(500).json({
+      error: "Internal Server Error",
+    });
+  }
 }
