@@ -57,8 +57,35 @@ export async function signUp(request, response) {
   }
 }
 
-export function login(request, response) {
-  console.log("login User");
+export async function login(request, response) {
+  // console.log("login User");
+  try {
+    const { username, password } = request.body;
+    const user = await User.findOne({ username });
+    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+
+    if ( !user || !isPasswordCorrect  ){
+      return response.status(400).json({ error: "Invalid username or password" });
+    }
+
+    // Generate JWT
+    generateTokenAndSetCookie(user._id,response);
+
+    return response.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      username: user.username,
+      profilePic: user.profilePic,
+    });
+
+
+
+  } catch (error) {
+    console.log("Error in Login Controller",error.message);
+    return response.send(500).json({
+      error: "Internal Server Error",
+    });
+  }
 }
 
 export function logout(request, response) {
