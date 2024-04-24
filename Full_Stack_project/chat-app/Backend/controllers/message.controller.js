@@ -51,3 +51,29 @@ export async function sendMessage(request,response){
         });
     }
 }
+
+export async function getMessages(request, response) {
+  try {
+    const { id: userToChatId } = request.params;
+    const senderId = request.user._id;
+
+    const conversation = await Conversation.findOne({
+      participants: {
+        $all: [senderId, userToChatId],
+      },
+    }).populate("messages");
+
+    if (!conversation) {
+      return response.status(200).json([]);
+    }
+
+    const messages = conversation.messages;
+
+    response.status(200).json(messages);
+  } catch (error) {
+    console.log("Error in getMessage controller =>", error.message);
+    response.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+}
