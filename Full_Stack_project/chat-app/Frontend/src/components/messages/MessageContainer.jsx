@@ -1,3 +1,4 @@
+import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 
 export default function MessageContainer() {
@@ -9,6 +10,7 @@ export default function MessageContainer() {
           <span className=" text-gray-900 font-bold"> Jonh </span>
         </div>
         <Messages />
+        <MessageInput />
       </>
     </div>
   );
