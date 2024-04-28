@@ -105,9 +105,14 @@ export default function SignUp() {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="btn btn-block btn-sm mt-2 bg-slate-700"
             >
-              Sign Up
+              {loading ? (
+                <span className=" loading loading-spinner"></span>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
         </form>
