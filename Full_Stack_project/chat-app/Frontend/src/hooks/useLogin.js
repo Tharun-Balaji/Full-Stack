@@ -9,7 +9,7 @@ export default function useLogin() {
 
   async function login(username, password) {
     const success = handleInputErrors(username, password);
-    if (!success) return;
+    if (!success) {return};
 
     setLoading(true);
     try {
