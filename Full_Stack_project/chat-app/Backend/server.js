@@ -7,9 +7,11 @@ import messageRoutes from "./routes/message.routes.js";
 import protectRoute from "./middleware/protectRoute.js";
 import userRoutes from "./routes/user.routes.js"
 
-import connectToMongoDB from "./db/connectToMongoDB.js";
 
-const app = express();
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import { app, server } from "./socket/socket.js";
+
+// const app = express();
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
@@ -28,7 +30,7 @@ app.use("/api/users",protectRoute, userRoutes);
 //     res.send('Hello World!');
 // })
 
-app.listen(PORT, function () {
+server.listen(PORT, function () {
   connectToMongoDB();
   console.log(`Server listening on port ${PORT}`);
 });
