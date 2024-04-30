@@ -15,9 +15,7 @@ import { app, server } from "./socket/socket.js";
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
-
 app.use(express.json());
-
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
@@ -25,10 +23,7 @@ app.use("/api/messages",protectRoute, messageRoutes);
 app.use("/api/users",protectRoute, userRoutes);
 
 
-// app.get("/", (req, res) => {
-//     // root route for http://localhost:5000/
-//     res.send('Hello World!');
-// })
+
 
 server.listen(PORT, function () {
   connectToMongoDB();
