@@ -1,6 +1,7 @@
 {
     "env": {
         "mongoDB_url" : "mongodb+srv://tharunbalaji110:V1j8zaLh7ijqwEa2@cluster0.yn8ddpk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-        "jwt_secret" : "scaler"
+        "jwt_secret" : "scaler",
+        "stripe_key": "sk_test_51PInCYSEZBUoT5edIIdVbdNxcSx7OxCguwNIEIel3g6sKyUeCl7LKVRp1c5aDtUAxPmbDvbdnTSDBS2reHmx4Y0u00BJFkHOdp"
     }
 }

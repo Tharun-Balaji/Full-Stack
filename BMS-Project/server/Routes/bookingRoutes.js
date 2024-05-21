@@ -1,11 +1,48 @@
 const authMiddleware = require("../middleware/authMiddleware");
-const Booking = require("../models/bookingModel");
+const Booking = require("../models/bookingModels");
 const Show = require("../models/showModel");
 
 const router = require("express").Router();
 const stripe = require("stripe")(process.env.stripe_key);
 
-router.post("/make-payment", authMiddleware, async (req, res) => {
+
+
+router.post("/make-payment", async (req, res) => {
+  console.log(process.env.stripe_key)
+  // try {
+  //   const { token, amount } = req.body;
+  //   const customer = await stripe.customers.create({
+  //     email: token.email,
+  //     source: token.id
+  //   });
+
+  //   const paymentIntent = await stripe.paymentIntent.create({
+  //     amount,
+  //     currency: "usd",
+  //     customer: customer.id,
+  //     receipt_email: token.email,
+  //     description: "Payment for booking tickets"
+  //   });
+
+  //   const transactionId = paymentIntent.id;
+  //   // const paymentIntent = await stripe.paymentIntents.create({
+  //   //   amount: Number(req.body.amount),
+  //   //   currency: "INR",
+  //   // });
+
+  //   // const transactionId = paymentIntent.client_secret;
+
+  //   res.send({
+  //     success: true,
+  //     message: "Payment successful",
+  //     data: transactionId,
+  //   });
+  // } catch (error) {
+  //   res.send({
+  //     success: false,
+  //     message: error.message,
+  //   });
+  // }
   try {
     const { token, amount } = req.body;
     const customer = await stripe.customers.create({
@@ -13,32 +50,35 @@ router.post("/make-payment", authMiddleware, async (req, res) => {
       source: token.id
     });
 
-    const charge = await stripe.charges.create({
-      amount,
-      currency: "usd",
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd',
       customer: customer.id,
+      payment_method_types: ['card'],
       receipt_email: token.email,
-      description: "Payment for booking tickets"
+      description: "Token has been assigned to the movie!"
     });
 
-    const transactionId = charge.id;
-    // const paymentIntent = await stripe.paymentIntents.create({
-    //   amount: Number(req.body.amount),
-    //   currency: "INR",
+    // const charge = await stripe.charges.create({
+    //     amount: amount,
+    //     currency: "usd",
+    //     customer: customer.id,
+    //     receipt_email: token.email,
+    //     description: "Token has been assigned to the movie!"
     // });
 
-    // const transactionId = paymentIntent.client_secret;
+    const transactionId = paymentIntent.id;
 
     res.send({
       success: true,
-      message: "Payment successful",
-      data: transactionId,
+      message: "Payment Successful! Ticket(s) booked!",
+      data: transactionId
     });
-  } catch (error) {
+  } catch (err) {
     res.send({
       success: false,
-      message: error.message,
-    });
+      message: err.message
+    })
   }
 });
 

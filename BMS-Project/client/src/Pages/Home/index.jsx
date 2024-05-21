@@ -51,9 +51,10 @@ export default function Home() {
             .filter((movie) =>
               movie.title.toLowerCase().includes(searchText.toLowerCase())
             )
-            .map((movie) => (
-              <Col span={4}>
+            .map((movie, idx) => (
+              <Col key={idx} span={4}>
                 <div
+                  key={idx}
                   style={{ maxWidth: "190px" }}
                   className="card flex flex-col gap-3 cursor-pointer"
                   onClick={() =>

@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import { GetShowById } from "../../apiCalls/theatres";
 import { HideLoading, ShowLoading } from "../../redux/loaderSlice";
-// import StripeCheckout from "react-stripe-checkout";
+import StripeCheckout from "react-stripe-checkout";
 import Button from "../../components/Button.jsx";
 import moment from "moment";
-// import { MakePayment, BookShowTickets } from "../../apiCalls/bookings";
+import { MakePayment, BookShowTickets } from "../../apiCalls/bookings";
 
 function BookShow() {
   const { user } = useSelector((state) => state.users);
@@ -17,7 +17,8 @@ function BookShow() {
   const [show, setShow] = useState({});
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  // const STRIPE_KEY = "pk_test_51OPndCSHbLbtEZ3fNbxIvwzX6S8WiYcVdojanDVig57a18RPsT6YsMofUPcCLZUAq4P5JJ3Ids9jUiBiOJpunFr500PFm8iEzJ";
+  const STRIPE_KEY =
+		"pk_test_51PInCYSEZBUoT5edzcoFm6bMwU7FUTMrNOYjrFCp8Gc2nlqPGHC55KWHa1uDX914EGN119rG5BJQDsct6lffw2N9009PY82wpM";
 
   const getData = async () => {
     try {
@@ -93,38 +94,18 @@ function BookShow() {
     );
   };
 
-//   const book = async (transactionId = "") => {
-//     try {
-//       dispatch(ShowLoading());
-//       const response = await BookShowTickets({
-//         show: params.id,
-//         seats: selectedSeats,
-//         transactionId,
-//         user: user._id,
-//       });
-//       if (response.success) {
-//         message.success(response.message);
-//         navigate("/profile");
-//       } else {
-//         message.error(response.message);
-//       }
-//       dispatch(HideLoading());
-//     } catch (error) {
-//       message.error(error.message);
-//       dispatch(HideLoading());
-//     }
-//   };
-
-  // const onToken = async (token) => {
+  // async function book (transactionId = "") {
   //   try {
   //     dispatch(ShowLoading());
-  //     const response = await MakePayment(
-  //       token,
-  //       selectedSeats.length * show.ticketPrice * 100
-  //     );
+  //     const response = await BookShowTickets({
+  //       show: params.id,
+  //       seats: selectedSeats,
+  //       transactionId,
+  //       user: user._id,
+  //     });
   //     if (response.success) {
   //       message.success(response.message);
-  //       //  book(response.data);
+  //       navigate("/profile");
   //     } else {
   //       message.error(response.message);
   //     }
@@ -135,65 +116,93 @@ function BookShow() {
   //   }
   // };
 
+  async function onToken (token) {
+    try {
+      dispatch(ShowLoading());
+      const response = await MakePayment(
+        token,
+        selectedSeats.length * show.ticketPrice * 100
+      );
+      if (response.success) {
+        message.success(response.message);
+        //  book(response.data);
+      } else {
+        message.error(response.message);
+        console.log(response);
+      }
+      dispatch(HideLoading());
+    } catch (error) {
+      message.error(error.message);
+      console.log(error);
+      dispatch(HideLoading());
+    }
+  };
+
+
   useEffect(() => {
     getData();
   }, []);
 
   return (
-    show?.movie?.title && (
-      <div>
-        {/* show infomation */}
+		show?.movie?.title && (
+			<div>
+				{/* show infomation */}
 
-        <div className="flex justify-between card p-2 items-center">
-          <div>
-            <h1 className="text-sm">{show.theatre.name}</h1>
-            <h1 className="text-sm">{show.theatre.address}</h1>
-          </div>
+				<div className="flex justify-between card p-2 items-center">
+					<div>
+						<h1 className="text-sm">{show.theatre.name}</h1>
+						<h1 className="text-sm">{show.theatre.address}</h1>
+					</div>
 
-          <div>
-            <h1 className="text-2xl uppercase">
-              {show.movie.title} ({show.movie.language})
-            </h1>
-          </div>
+					<div>
+						<h1 className="text-2xl uppercase">
+							{show.movie.title} ({show.movie.language})
+						</h1>
+					</div>
 
-          <div>
-            <h1 className="text-sm">
-              {moment(show.date).format("MMM Do yyyy")} -{" "}
-              {moment(show.time, "HH:mm").format("hh:mm A")}
-            </h1>
-          </div>
-        </div>
+					<div>
+						<h1 className="text-sm">
+							{moment(show.date).format("MMM Do yyyy")} -{" "}
+							{moment(show.time, "HH:mm").format("hh:mm A")}
+						</h1>
+					</div>
+				</div>
 
-        {/* seats */}
+				{/* seats */}
 
-        <div className="flex justify-center mt-2">{getSeats()}</div>
+				<div className="flex justify-center mt-2">{getSeats()}</div>
 
-        {selectedSeats.length > 0 && (
-          <div className="mt-2 flex justify-center gap-2 items-center flex-col">
-            <div className="flex justify-center">
-              <div className="flex uppercase card p-2 gap-3">
-                <h1 className="text-sm">
-                  <b>Selected Seats</b> : {selectedSeats.join(" , ")}
-                </h1>
+				{selectedSeats.length > 0 && (
+					<div className="mt-2 flex justify-center gap-2 items-center flex-col">
+						<div className="flex justify-center">
+							<div className="flex uppercase card p-2 gap-3">
+								<h1 className="text-sm">
+									<b>Selected Seats</b> :{" "}
+									{selectedSeats.join(" , ")}
+								</h1>
 
-                <h1 className="text-sm">
-                  <b>Total Price</b> : USD{" "}
-                  {Math.ceil((selectedSeats.length * show.ticketPrice) / 84)}
-                </h1>
-              </div>
-            </div>
-            {/* <StripeCheckout
-              billingAddress
-              token={onToken}
-              stripeKey={STRIPE_KEY}
-              amount={selectedSeats.length * show.ticketPrice * 100}
-            > */}
-            <Button title="Pay to book"  />
-            {/* </StripeCheckout> */}
-          </div>
-        )}
-      </div>
-    )
+								<h1 className="text-sm">
+									<b>Total Price</b> : USD{" "}
+									{Math.ceil(
+										selectedSeats.length * show.ticketPrice
+									)}
+								</h1>
+							</div>
+						</div>
+						<StripeCheckout
+							billingAddress
+							token={onToken}
+							stripeKey={STRIPE_KEY}
+							amount={
+								selectedSeats.length * show.ticketPrice * 100
+							}
+						>
+							<Button title="Pay to book" />
+						</StripeCheckout>
+					</div>
+				)}
+			</div>
+		)
   );
 }
 

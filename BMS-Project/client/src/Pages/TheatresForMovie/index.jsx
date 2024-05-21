@@ -100,8 +100,8 @@ export default function TheatresForMovie() {
             "No shows added. Check after sometime."
           ) : (
             <div className="mt-1 flex flex-col gap-1">
-              {(theatres || []).map((theatre) => (
-                <div className="card p-2">
+              {(theatres || []).map((theatre, idx) => (
+                <div key={idx} className="card p-2">
                   <h1 className="text-md uppercase">{theatre.name}</h1>
                   <h1 className="text-sm">Address : {theatre.address}</h1>
                   <div className="divider"></div>
