@@ -7,6 +7,7 @@ const tasks = require("./routes/tasks");
 const connectDB = require('./db/connect');
 require("dotenv").config();
 const PORT = 3000;
+const notFound = require("./middleware/not-found");
 
 //middleware
 app.use(express.static(path.join(__dirname, "public")));
@@ -15,7 +16,8 @@ app.use(cors());
 
 // console.log()
 //routes
-app.use("/api/v1/tasks",tasks);
+app.use("/api/v1/tasks", tasks);
+app.use(notFound);
 
 /*
  * app.get("/api/v1/tasks")         -- get all the tasks
