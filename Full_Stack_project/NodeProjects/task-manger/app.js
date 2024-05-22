@@ -8,6 +8,7 @@ const connectDB = require('./db/connect');
 require("dotenv").config();
 const PORT = 3000;
 const notFound = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 //middleware
 app.use(express.static(path.join(__dirname, "public")));
@@ -18,6 +19,7 @@ app.use(cors());
 //routes
 app.use("/api/v1/tasks", tasks);
 app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 /*
  * app.get("/api/v1/tasks")         -- get all the tasks
