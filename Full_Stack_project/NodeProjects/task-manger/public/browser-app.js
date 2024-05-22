@@ -55,7 +55,7 @@ tasksDOM.addEventListener("click", async (e) => {
     loadingDOM.style.visibility = "visible";
     const id = el.parentElement.dataset.id;
     try {
-      await axios.delete(`http://localhost:3000/api/v1/tasks/${id}`);
+      await axios.delete(`/api/v1/tasks/${id}`);
       showTasks();
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ formDOM.addEventListener("submit", async (e) => {
   const name = taskInputDOM.value;
 
   try {
-    await axios.post("http://localhost:3000/api/v1/tasks", { name });
+    await axios.post("/api/v1/tasks", { name });
     showTasks();
     taskInputDOM.value = "";
     formAlertDOM.style.display = "block";

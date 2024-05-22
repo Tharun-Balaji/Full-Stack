@@ -8,15 +8,11 @@ require("dotenv").config();
 const PORT = 3000;
 
 //middleware
+app.use(express.static("./public"));
 app.use(express.json());
 app.use(cors());
 
 //routes
-app.get("/hello", function (req, res) {
-  res.send("Hello World!");
-});
-
-
 app.use("/api/v1/tasks",tasks);
 
 /*
