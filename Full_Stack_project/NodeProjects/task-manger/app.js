@@ -6,7 +6,7 @@ const cors = require("cors");
 const tasks = require("./routes/tasks");
 const connectDB = require('./db/connect');
 require("dotenv").config();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
