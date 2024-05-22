@@ -1,6 +1,11 @@
 
-function errorHandlerMiddleware(err,req, res, next) { 
-    return res.status(500).json({ meg: err });
+const {CustomAPIError} = require("../errors/custom-error");
+
+function errorHandlerMiddleware(err, req, res, next) { 
+    if (err instanceof CustomAPIError) {
+        return res.status(err.status).json({ msg: err.message });
+    }
+    return res.status(500).json({ msg: "Something went wrong please try again" });
 };
 
 module.exports = errorHandlerMiddleware;
