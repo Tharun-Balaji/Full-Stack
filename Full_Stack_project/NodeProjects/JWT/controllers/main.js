@@ -1,11 +1,39 @@
+// check username, password in post(login) request
+// if exist create new JWT
+// send back to frontend
+
+// setup authentication so only the request with JWT can access the dashboard
+
+const jwt = require("jsonwebtoken");
+const CustomAPIError = require("../errors/custom-error");
 
 const login = async (req, res) => {
-    res.send("Fake login/register/ routes")
+    // console.log(req)
+    const { username, password } = req.body;
+    // console.log(username,password);
+
+    // mongo
+    //JOI
+    // check in controller 
+
+    if (!username || !password) {
+        throw new CustomAPIError("Please enter a username and password", 400);
+    };
+
+    const id = new Date().getDate();
+
+    const token = jwt.sign({ id, username },process.env.JWT_SECRET,{expiresIn: "30d"});
+
+    // console.log(username,password);
+    res.status(200).json({
+        msg: "user Created",
+        token
+    })
 };
 
 const dashboard = async (req, res) => {
     const luckyNumber = Math.floor(Math.random() * 100);
-    res.send(200).json({
+    res.status(200).json({
         msg: `Hello Tharun`,
         secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
     });
