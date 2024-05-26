@@ -39,8 +39,8 @@ UserSchema.methods.createJWT = function () {
     return jwt.sign({
         userId: this._id,
         name: this.name,
-    }, "jwtSecret", {
-        expiresIn: "30d",  // 30 day
+    }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME,  // 30 day
     });
 };
 
