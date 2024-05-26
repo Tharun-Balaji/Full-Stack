@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -15,7 +16,7 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         minlength: 3,
         maxlength: 50,
-        match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,"Please provide a valid email address"]
+        match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, "Please provide a valid email address"]
     },
     password: {
         type: String,
@@ -32,6 +33,15 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.methods.getName = function () {
     return this.name;
+};
+
+UserSchema.methods.createJWT = function () {
+    return jwt.sign({
+        userId: this._id,
+        name: this.name,
+    }, "jwtSecret", {
+        expiresIn: "30d",  // 30 day
+    });
 };
 
 
