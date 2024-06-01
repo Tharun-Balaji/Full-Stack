@@ -3,12 +3,32 @@ const Job = require("../models/Job");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors");
 
-const getAllJobs = async (req, res) => { 
-    res.json(req.user)
+const getAllJobs = async (req, res) => {
+    const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
+    res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
 const getJob = async (req, res) => {
-    res.send("get job");
+    /*
+ <<<<<<<<<<<<<<  ✨ Codeium Command 🌟 >>>>>>>>>>>>>>>>
++    // Destructuring is used to extract the properties from the `req` object
++    // The variables `userId` and `jobId` are extracted from the `user` and `params`
++    // properties of the `req` object respectively.
++    // For example, if the `req` object is { user: { userId: '123' }, params: { id: '456' } },
+        +    // then after this line, `userId` will be '123' and `jobId` will be '456'.
+*/
+    const {
+        user: { userId },
+        params: { id: jobId },
+    } = req;
+    const job = await Job.findOne({
+        _id: jobId,
+        createdBy: userId,
+    });
+    if (!job) {
+        throw new NotFoundError(`No job with id ${jobId}`);
+    }
+    res.status(StatusCodes.OK).json({ job });
 };
 
 const createJob = async (req, res) => {
