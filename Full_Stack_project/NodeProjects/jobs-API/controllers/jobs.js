@@ -60,8 +60,33 @@ const updateJob = async (req, res) => {
     res.status(StatusCodes.OK).json({ job });
 };
 
+/**
+ * Deletes a job from the database.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The user object.
+ * @param {string} req.user.userId - The ID of the user.
+ * @param {Object} req.params - The parameters object.
+ * @param {string} req.params.id - The ID of the job.
+ * @param {Object} res - The response object.
+ * @return {Promise<void>} - A promise that resolves when the job is deleted.
+ * @throws {NotFoundError} - If no job with the given ID is found.
+ */
 const deleteJob = async (req, res) => {
-    res.send("delete job");
+    const {
+        user: { userId },
+        params: { id: jobId }, 
+    } = req;
+    // console.log(userId, jobId); 
+    const job = await Job.findOneAndDelete({
+        _id: jobId,
+        createdBy: userId,
+    });
+    // console.log("here")
+    if (!job) {
+        throw new NotFoundError(`No job with id ${jobId}`);
+    }
+    res.status(StatusCodes.OK).send();
 };
 
 module.exports = {
