@@ -12,6 +12,7 @@ export default function TheatresForMovie() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryDate = new URLSearchParams(window.location.search).get("date");
+  console.log(queryDate);
   const [theatres, setTheatres] = useState([]);
   const [movie, setMovie] = useState({});
   const [date, setDate] = useState(queryDate || moment().format("YYYY-MM-DD"));
@@ -59,7 +60,7 @@ export default function TheatresForMovie() {
       getData();
     }
     getTheatres();
-  }, []);
+  }, [date]);
 
   // console.log(theatres);
 

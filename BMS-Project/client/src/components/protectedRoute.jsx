@@ -47,7 +47,9 @@ export default function ProtectedRoute({ children }) {
       <div className="layout p-1">
         <div className="header bg-primary flex justify-between p-1">
           <div>
-            <h1 className="text-2xl text-white cursor-pointer">
+            <h1 className="text-2xl text-white cursor-pointer"
+              onClick={() => navigate("/")}
+            >
               Book My Show {user.isAdmin ? "(Admin)" : ""}
             </h1>
           </div>
