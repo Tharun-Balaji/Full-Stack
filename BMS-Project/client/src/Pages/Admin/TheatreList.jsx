@@ -67,7 +67,7 @@ export default function TheatresList() {
       title: "Owner",
       dataIndex: "owner",
       render: (owner, rowData) => {
-        console.log("===>", rowData);
+        // console.log("===>", rowData);
         return owner.name;
       },
     },

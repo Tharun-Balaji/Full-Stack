@@ -66,7 +66,7 @@ export default function MovieForm({
           </Col>
           <Col span={24}>
             <Form.Item label="Movie Description" name="description">
-              <textarea type="text" />
+              <textarea type="text" ></textarea>
             </Form.Item>
           </Col>
 

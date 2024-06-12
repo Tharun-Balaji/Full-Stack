@@ -7,7 +7,7 @@ export const MakePayment = async (token, amount) => {
       token,
       amount,
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     return error.response.data;
