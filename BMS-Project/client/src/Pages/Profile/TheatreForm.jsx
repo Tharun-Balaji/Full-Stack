@@ -70,7 +70,7 @@ export default function TheatreForm({
           name="address"
           rules={[{ required: true, message: "Please input theatre address!" }]}
         >
-          <textarea type="text" />
+          <textarea type="text" ></textarea>
         </Form.Item>
 
         <Form.Item

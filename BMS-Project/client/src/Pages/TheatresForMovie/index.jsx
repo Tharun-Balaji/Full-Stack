@@ -54,14 +54,14 @@ export default function TheatresForMovie() {
   }
 
   useEffect(() => {
-    console.log({ queryDate, params });
+    // console.log({ queryDate, params });
     if (!movie?._id) {
       getData();
     }
     getTheatres();
   }, []);
 
-  console.log(theatres);
+  // console.log(theatres);
 
   return (
     <div>
@@ -85,7 +85,7 @@ export default function TheatresForMovie() {
                 min={moment().format("YYYY-MM-DD")}
                 value={date}
                 onChange={(e) => {
-                  setDate(e.target.value);
+                  setDate(moment(e.target.value).format("YYYY-MM-DD"));
                   navigate(`/movie/${params.id}?date=${e.target.value}`);
                 }}
               />

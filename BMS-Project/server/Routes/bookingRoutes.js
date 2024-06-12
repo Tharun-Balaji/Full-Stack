@@ -83,13 +83,13 @@ router.post("/make-payment", async (req, res) => {
 });
 
 router.post("/book-show", authMiddleware, async (req, res) => {
-  console.log("Here");
+  // console.log("Here");
   try {
     // save booking
     const newBooking = new Booking(req.body);
     await newBooking.save();
 
-    const show = await Show.findById(req.body.show);
+    const show = await Show.findById(req.body.show).populate("movie");
     // update seats
     await Show.findByIdAndUpdate(req.body.show, {
       bookedSeats: [...show.bookedSeats, ...req.body.seats],
@@ -116,7 +116,7 @@ router.get("/get-bookings/", authMiddleware, async (req, res) => {
         path: "show",
         populate: {
           path: "movie",
-          model: "movies",
+          model: "movie",
         },
       })
       .populate("user")

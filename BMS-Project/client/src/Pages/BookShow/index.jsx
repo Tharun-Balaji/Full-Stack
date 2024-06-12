@@ -94,27 +94,28 @@ function BookShow() {
     );
   };
 
-  // async function book (transactionId = "") {
-  //   try {
-  //     dispatch(ShowLoading());
-  //     const response = await BookShowTickets({
-  //       show: params.id,
-  //       seats: selectedSeats,
-  //       transactionId,
-  //       user: user._id,
-  //     });
-  //     if (response.success) {
-  //       message.success(response.message);
-  //       navigate("/profile");
-  //     } else {
-  //       message.error(response.message);
-  //     }
-  //     dispatch(HideLoading());
-  //   } catch (error) {
-  //     message.error(error.message);
-  //     dispatch(HideLoading());
-  //   }
-  // };
+  async function book (transactionId = "") {
+    try {
+      dispatch(ShowLoading());
+      const response = await BookShowTickets({
+        show: params.id,
+        seats: selectedSeats,
+        transactionId,
+        user: user._id,
+      });
+      if (response.success) {
+        message.success(response.message);
+        setSelectedSeats([]);
+        navigate("/profile");
+      } else {
+        message.error(response.message);
+      }
+      dispatch(HideLoading());
+    } catch (error) {
+      message.error(error.message);
+      dispatch(HideLoading());
+    }
+  };
 
   async function onToken (token) {
     try {
@@ -125,7 +126,7 @@ function BookShow() {
       );
       if (response.success) {
         message.success(response.message);
-        //  book(response.data);
+         book(response.data);
       } else {
         message.error(response.message);
         console.log(response);
