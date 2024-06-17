@@ -1,15 +1,10 @@
+import express from "express";
+import { login, logout, register } from "../controllers/auth.controller.js";
 
-import bcrypt from "bcrypt";
+const router = express.Router();
 
-export const register = async (req, res) => { 
-  const { username, password, email } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-};
+router.post("/register", register);
+router.post("/login", login);
+router.post("/logout", logout);
 
-export const login = async (req, res) => { 
-
-};
-
-export const logout = async (req, res) => { 
-
-};
+export default router;
