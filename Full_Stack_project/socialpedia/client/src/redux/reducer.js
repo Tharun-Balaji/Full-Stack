@@ -12,4 +12,4 @@ const rootReducer = combineReducers({
   theme: themeSlice
 });
 
-export default rootReducer;
+export  {rootReducer};
