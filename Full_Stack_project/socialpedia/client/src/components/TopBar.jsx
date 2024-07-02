@@ -13,11 +13,11 @@ import { Logout } from "../redux/userSlice";
 
 export default function TopBar() {
 
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState:{ errors  } } = useForm();
 
   const { theme } = useSelector((state) => state.theme);
   const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
   const handleSearch = async (data) => { };
   
