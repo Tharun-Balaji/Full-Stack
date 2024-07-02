@@ -1,13 +1,20 @@
 import { TbSocial } from "react-icons/tb";
 import { TextInput, CustomButton, Loading } from "../components";
-import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { BsShare } from "react-icons/bs";
+import { AiOutlineInteraction } from "react-icons/ai";
+import { ImConnection } from "react-icons/im";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { BgImage } from "../assets";
 
 export default function Login() {
-
-	const { register, handleSubmit, formState: { errors } } = useForm({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
 		mode: "onChange",
 	});
 
@@ -15,6 +22,8 @@ export default function Login() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const dispatch = useDispatch();
+
+	const onSubmit = async (data) => {};
 
 	return (
 		<div className="bg-bgColor w-full h-[100vh] flex items-center justify-center p-6">
@@ -37,7 +46,10 @@ export default function Login() {
 						Welcome back
 					</span>
 
-					<form className="py-8 flex flex-col gap-5=">
+					<form
+						className="py-8 flex flex-col gap-5"
+						onSubmit={handleSubmit(onSubmit)}
+					>
 						<TextInput
 							name="email"
 							placeholder="email@example.com"
@@ -107,6 +119,38 @@ export default function Login() {
 					</p>
 				</div>
 				{/* Right */}
+				<div className="hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-blue">
+					<div className="relative w-full flex items-center justify-center">
+						<img
+							src={BgImage}
+							alt="Bg Img"
+							className="w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover"
+						/>
+						<div className="absolute flex items-center gap-1 bg-white right-10 top-10 py-2 px-5 rounded-full">
+							<BsShare size={14} />
+							<span className="text-xs font-medium">Share</span>
+						</div>
+						<div className="absolute flex items-center gap-1 bg-white left-10 top-6 py-2 px-5 rounded-full">
+							<ImConnection />
+							<span className="text-xs font-medium">Connect</span>
+						</div>
+
+						<div className="absolute flex items-center gap-1 bg-white left-12 bottom-6 py-2 px-5 rounded-full">
+							<AiOutlineInteraction />
+							<span className="text-xs font-medium">
+								Interact
+							</span>
+						</div>
+					</div>
+					<div className="mt-16 text-center">
+						<p className="text-white text-base">
+							Connect with friedns & have share for fun
+						</p>
+						<span className="text-sm text-white/80">
+							Share memories with friends and the world.
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
