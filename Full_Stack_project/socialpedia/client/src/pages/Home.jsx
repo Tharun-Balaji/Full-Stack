@@ -7,7 +7,8 @@ import {
 	CustomButton,
   TextInput,
   Loading,
-  PostCard
+  PostCard,
+	EditProfile
 } from "../components";
 import { friends, requests, posts } from "../assets/data";
 import { useState } from 'react';
@@ -32,7 +33,8 @@ export default function Home() {
 
   const handlePostSubmit = (data) => { };
 
-  return (
+	return (
+		<>
 		<div className="home w-full px-0 lg:px-10 pb-20 2xl:pb-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden">
 			<TopBar />
 			<div className="w-full flex gap-2 lg:gap-4 pt-5 pb-10 h-full">
@@ -267,6 +269,8 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-		</div>
+			</div>
+			<EditProfile />
+		</>
   );
 }
