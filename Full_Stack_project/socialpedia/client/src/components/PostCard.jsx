@@ -113,7 +113,11 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 			{
 				showComments === post?._id && (
 					<div className="w-full mt-4 border-t border-[#66666645] pt-4">
-						<Com
+						<CommentForm
+							user={user}
+							id={post?._id}
+							getComments={()=>getComments(post?._id)}
+						/>
 					</div>
 				)
 			}
