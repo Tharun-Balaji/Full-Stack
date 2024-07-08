@@ -23,7 +23,7 @@ export default function ProfileCard({ user }) {
 		<div>
 			<div className="w-full bg-primary flex flex-col items-center shadow-sm rounded-xl px-6 py-4">
 				<div className="w-full flex items-center justify-between border border-b pb-5 border-[#66666645]">
-					<Link to={"/profile".concat(user?._id)}>
+					<Link to={"/profile/".concat(user?._id)}>
 						<div className="flex gap-2">
 							<img
 								src={user?.profileUrl ?? NoProfile}
