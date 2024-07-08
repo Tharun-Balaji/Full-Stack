@@ -7,8 +7,9 @@ import {
 	CustomButton,
   TextInput,
   Loading,
+  PostCard
 } from "../components";
-import { friends, requests } from "../assets/data";
+import { friends, requests, posts } from "../assets/data";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NoProfile } from '../assets';
@@ -24,6 +25,7 @@ export default function Home() {
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
+  const [loading, setLoading] = useState(false)
   
 
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -139,6 +141,25 @@ export default function Home() {
 							</div>
 						</div>
 					</form>
+					{loading ? (
+						<Loading />
+					) : posts?.length > 0 ? (
+						posts?.map((post) => (
+							<PostCard
+								key={post?._id}
+								post={post}
+								user={user}
+								deletePost={() => {}}
+								likePost={() => {}}
+							/>
+						))
+					) : (
+						<div className="flex w-full h-full items-center justify-center">
+							<p className="text-lg text-ascent-2">
+								No Post Available
+							</p>
+						</div>
+					)}
 				</div>
 				{/*Right*/}
 				<div className="hidden w-1/4 h-full lg:flex flex-col gap-8 overflow-y-auto">
@@ -157,7 +178,7 @@ export default function Home() {
 										className="flex items-center justify-between"
 									>
 										<Link
-											to={"/profile".concat(from._id)}
+											to={"/profile/	".concat(from._id)}
 											className="w-full flex items-center gap-4 cursor-pointer"
 										>
 											<img
