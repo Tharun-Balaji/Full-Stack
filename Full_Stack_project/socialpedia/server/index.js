@@ -7,6 +7,7 @@ import morgan from "morgan";
 // security packages
 import helmet from "helmet";
 import dbConnection from "./dbConfig/index.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
+
+//error middleware
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}...`);
