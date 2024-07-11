@@ -2,6 +2,8 @@
 import Verification from "../models/emailVerification.js";
 import Users from "../models/userModel.js";
 import { compareString } from "../utils/index.js";
+import { resetPasswordLink } from "../utils/sendEmail.js";
+import PasswordReset from './../models/PasswordReset.js';
 
 export const verifyEmail = async (req, res) => {
   console.log("verifyEmail");
@@ -76,6 +78,47 @@ export const verifyEmail = async (req, res) => {
     res.redirect(`/users/verified?message=`);
   }
 
+};
+
+export const requestPasswordReset = async (req, res) => { 
+  
+  try {
+    
+    const { email } = req.body;
+
+    // check if email exists
+    const user = await Users.findOne({ email });
+
+    // if user not found
+    if (!user) { 
+      return res
+        .status(404)
+        .json({
+          status: "FAILED",
+          message: "Email address not found"
+        });
+    }
+
+    // check if user has already requested a password reset
+    const existingRequest = await PasswordReset.findOne({ email });
+
+    if (existingRequest) { 
+      if (existingRequest.expiresAt > Date.now()) {
+        return res.status(201).json({
+          status: "PENDING",
+          message: "Reset password link has already been sent tp your email.",
+        });
+      }
+      await PasswordReset.findOneAndDelete({ email });
+    }
+
+    // send password reset link
+    await resetPasswordLink(user, res);
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
 };
 
 
