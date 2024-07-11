@@ -1,10 +1,10 @@
 
-import mongoose from "mongoose";
 import Verification from "../models/emailVerification.js";
 import Users from "../models/userModel.js";
 import { compareString } from "../utils/index.js";
 
 export const verifyEmail = async (req, res) => {
+  console.log("verifyEmail");
 
   // check if user exists
   const { userId, token } = req.params;
@@ -77,4 +77,5 @@ export const verifyEmail = async (req, res) => {
   }
 
 };
+
 
