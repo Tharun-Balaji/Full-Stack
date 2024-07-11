@@ -175,7 +175,37 @@ export const resetPassword = async (req, res) => {
 }
 
 export const changePassword = async (req, res) => {
-  
- };
+
+  try {
+    // get user id and password
+    const { userId, password } = req.body;
+
+    // hash password
+    const hashedPassword = await hashString(password);
+
+    // update password
+    const user = await Users.findByIdAndUpdate(
+      { _id: userId },
+      { password: hashedPassword }
+    );
+
+    // if user found
+    if (user) {
+      await PasswordReset.findOneAndDelete({ userId });
+
+      // redirect
+      const message = "Password changed successfully";
+      return res.redirect(
+        `/users/resetpassword?status=success&message=${message}`
+      );
+      return;
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+ 
 
 
