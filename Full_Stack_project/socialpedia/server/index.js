@@ -1,18 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import bodyParser from "body-parser";
 import morgan from "morgan";
-
-// security packages
+import bodyParser from "body-parser";
+import path from "path";
+//security packages
 import helmet from "helmet";
 import dbConnection from "./dbConfig/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import router from "./routes/index.js";
 
+
+const __dirname = path.resolve(path.dirname(""));
+
 dotenv.config();
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "views/build")));
 
 const PORT = process.env.PORT || 8800;
 
@@ -32,5 +37,5 @@ app.use(router);
 app.use(errorMiddleware);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}...`);
+  console.log(`Server running on port: ${PORT}`);
 });
