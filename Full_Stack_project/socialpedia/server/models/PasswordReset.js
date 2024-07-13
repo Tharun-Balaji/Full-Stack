@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const passwordResetSchema = Schema({
+const passwordResetSchema = mongoose.Schema({
   userId: { type: String, unique: true },
   email: { type: String, unique: true },
   token: String,

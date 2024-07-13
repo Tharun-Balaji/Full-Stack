@@ -207,6 +207,47 @@ export const changePassword = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getUser = async (req, res, next) => {
+
+  try {
+    // get user id
+    const { userId } = req.body.user;
+    const { id } = req.params;
+
+    // get user
+    const user = await Users.findById(id ?? userId).populate({
+      path: "friends",
+      select: "-password",
+    });
+
+    // if user not found
+    if (!user) {
+      return res.status(200).send({
+        message: "User Not Found",
+        success: false,
+      });
+    }
+    
+    // set password to undefined
+    user.password = undefined;
+
+    // send response
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "auth error",
+      success: false,
+      error: error.message,
+    });
+  }
+
+};
  
 
 
