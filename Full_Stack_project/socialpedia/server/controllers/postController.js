@@ -1,7 +1,7 @@
 
 import Users from '../models/userModel.js';
 import Posts from './../models/postModel.js';
-import Comments from './../models/commentModel';
+import Comments from './../models/commentModel.js';
 export const createPost = async (req, res, next) => {
 
   try {
