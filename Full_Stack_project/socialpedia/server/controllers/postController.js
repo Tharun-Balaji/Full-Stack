@@ -374,3 +374,7 @@ export const commentPost = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const replyPostComment = async (req, res, next) => { 
+  
+};

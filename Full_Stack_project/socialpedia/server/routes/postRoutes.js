@@ -9,7 +9,8 @@ import {
   getPosts,
   getUserPost,
   likePost,
-  likePostComment
+  likePostComment,
+  replyPostComment
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -36,5 +37,8 @@ router.post("/like-comment/:id/:rid?", userAuth, likePostComment);
 
 //comment on posts
 router.post("/comment/:id", userAuth, commentPost);
+
+//reply on comments
+router.post("/reply-comment/:id", userAuth, replyPostComment);
 
 export default router;
