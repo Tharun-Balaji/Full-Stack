@@ -398,7 +398,71 @@ export const getFriendRequest = async (req, res, next) => {
   }
 };
 
+export const acceptRequest = async (req, res, next) => {
 
+  try {
+
+    // get user id
+    const id = req.body.user.userId;
+
+    // get request id and status
+    const { rid, status } = req.body;
+
+    //check if friend request exists
+    const requestExist = await FriendRequest.findById(rid);
+
+    // if friend request does not exist
+    if (!requestExist) {
+      next("No Friend Request Found.");
+      return;
+    };
+
+    // update friend request
+    const newRes = await FriendRequest.findByIdAndUpdate(
+      { _id: rid },
+      { requestStatus: status }
+    );
+
+    // if status is accepted
+    if (status === "Accepted") {
+
+      // find user
+      const user = await Users.findById(id);
+
+      // add friend
+      user.friends.push(newRes?.requestFrom);
+
+      // save user
+      await user.save();
+
+      // find friend
+      const friend = await Users.findById(newRes?.requestFrom);
+
+      // add to their friend
+      friend.friends.push(newRes?.requestTo);
+
+      // save friend
+      await friend.save();
+    }
+
+    // if not accepted
+    // Don't do anything
+
+    // send response
+    res.status(201).json({
+      success: true,
+      message: "Friend Request " + status,
+    });
+
+}catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "auth error",
+      success: false,
+      error: error.message,
+    });
+  }
+ };
 
  
 

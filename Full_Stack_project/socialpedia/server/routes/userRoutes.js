@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import {
+  acceptRequest,
   changePassword,
   friendRequest,
   getFriendRequest,
