@@ -205,3 +205,42 @@ export const getComments = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const likePost = async (req, res, next) => { 
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // get post id
+    const { id } = req.params;
+
+    // get post
+    const post = await Posts.findById(id);
+
+    // get index
+    const index = post.likes.findIndex((pid) => pid === String(userId));
+
+    if (index === -1) { // if not liked
+      post.likes.push(userId);
+    } else { // if liked
+      post.likes = post.likes.filter((pid) => pid !== String(userId));
+    }
+
+    // update post
+    const newPost = await Posts.findByIdAndUpdate(id, post, {
+      new: true,
+    });
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "successfully",
+      data: newPost,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};

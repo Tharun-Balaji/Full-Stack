@@ -6,7 +6,8 @@ import {
   getComments,
   getPost,
   getPosts,
-  getUserPost
+  getUserPost,
+  likePost
 } from "../controllers/postController.js";
 
 const router = express.Router();
