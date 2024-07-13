@@ -248,6 +248,61 @@ export const getUser = async (req, res, next) => {
   }
 
 };
+
+export const updateUser = async (req, res, next) => {
+
+  try {
+
+    // get profile data
+    const { firstName, lastName, location, profileUrl, profession } = req.body;
+
+    // check if all required fields are provided
+    if (!(firstName || lastName || contact || profession || location)) {
+      next("Please provide all required fields");
+      return;
+    }
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // create user object
+    const updateUser = {
+      firstName,
+      lastName,
+      location,
+      profileUrl,
+      profession,
+      _id: userId,
+    };
+
+    // update user
+    const user = await Users.findByIdAndUpdate(userId, updateUser, {
+      new: true,
+    });
+
+    // populate friends
+    await user.populate({ path: "friends", select: "-password" });
+    
+    // create JWT token
+    const token = createJWT(user?._id);
+
+    // set password to undefined
+    user.password = undefined;
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user,
+      token,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+
+ };
  
 
 

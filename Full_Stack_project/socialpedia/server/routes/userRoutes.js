@@ -1,6 +1,9 @@
 import express from "express";
 import path from "path";
-import { changePassword, requestPasswordReset, resetPassword, verifyEmail } from "../controllers/userController.js";
+import {
+  changePassword,
+  getUser, requestPasswordReset, resetPassword, updateUser, verifyEmail
+} from "../controllers/userController.js";
 import userAuth from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
