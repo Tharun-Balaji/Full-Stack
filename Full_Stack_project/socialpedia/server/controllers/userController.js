@@ -359,7 +359,47 @@ export const friendRequest = async (req, res, next) => {
       error: error.message,
     });
   }
-}
+};
+
+export const getFriendRequest = async (req, res, next) => { 
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // get all friend requests with status pending
+    const request = await FriendRequest.find({
+      requestTo: userId,
+      requestStatus: "Pending",
+    }).populate({ // populate requestFrom
+      path: "requestFrom",
+      select: "firstName lastName profileUrl profession -password",
+    })
+      .limit(10) // limit to 10 requests
+      .sort({ // sort by id
+        _id: -1,
+      });
+    
+    
+    // send response
+    res.status(200).json({
+      success: true,
+      data: request,
+    });
+
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "auth error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
+
  
 
 

@@ -2,6 +2,8 @@ import express from "express";
 import path from "path";
 import {
   changePassword,
+  friendRequest,
+  getFriendRequest,
   getUser, requestPasswordReset, resetPassword, updateUser, verifyEmail
 } from "../controllers/userController.js";
 import userAuth from "../middlewares/authMiddleware.js";
