@@ -244,3 +244,92 @@ export const likePost = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const likePostComment = async (req, res, next) => { 
+
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // get comment id
+    const { id, rid } = req.params;
+
+
+    if (rid === undefined || rid === null || rid === `false`) { // if no reply id
+
+      // get comment
+      const comment = await Comments.findById(id);
+
+      // get index
+      const index = comment.likes.findIndex((el) => el === String(userId));
+
+      if (index === -1) { // if not liked
+        comment.likes.push(userId);
+      } else { // if liked
+        comment.likes = comment.likes.filter((i) => i !== String(userId));
+      }
+
+      // update comment
+      const updated = await Comments.findByIdAndUpdate(id, comment, {
+        new: true,
+      });
+
+      // send response
+      res.status(201).json(updated);
+
+    } else { // if reply id
+
+      // get reply
+      const replyComments = await Comments.findOne(
+        { _id: id }, // search by comment id
+        {
+          replies: { // search by reply id
+            $elemMatch: {
+              _id: rid, // search by reply id
+            },
+          },
+        }
+      );
+    }
+
+    // get index
+    const index = replyComments?.replies[0]?.likes.findIndex(
+      (i) => i === String(userId)
+    );
+
+    if (index === -1) { // if not liked
+      replyComments.replies[0].likes.push(userId);
+    } else { // if liked
+      replyComments.replies[0].likes = replyComments.replies[0]?.likes.filter(
+        (i) => i !== String(userId)
+      );
+    }
+
+    // create query object
+    const query = { _id: id, "replies._id": rid };
+
+    // update comment
+    const updated = {
+        $set: { // set
+          "replies.$.likes": replyComments.replies[0].likes, // likes
+        },
+      };
+
+    // update comment
+    const result = await Comments.updateOne(query, updated, { new: true });
+    
+
+    // send response
+    res.status(201).json(result);
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const commentPost = async (req, res, next) => { 
+  
+};
