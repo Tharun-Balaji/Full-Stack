@@ -1,7 +1,7 @@
 
 import Verification from "../models/emailVerification.js";
 import Users from "../models/userModel.js";
-import { compareString } from "../utils/index.js";
+import { compareString, hashString } from "../utils/index.js";
 import { resetPasswordLink } from "../utils/sendEmail.js";
 import PasswordReset from './../models/PasswordReset.js';
 
@@ -126,6 +126,7 @@ export const resetPassword = async (req, res) => {
 
   // get user id and token
   const { userId, token } = req.params;
+
 
   try {
     // find record
