@@ -1,6 +1,7 @@
 
 import Users from '../models/userModel.js';
 import Posts from './../models/postModel.js';
+import Comments from './../models/commentModel';
 export const createPost = async (req, res, next) => {
 
   try {
@@ -172,3 +173,35 @@ export const getUserPost = async (req, res, next) => {
   }
 };
 
+export const getComments = async (req, res, next) => { 
+
+  try {
+
+    // get post id
+    const { postId } = req.params;
+
+    // get comments
+    const postComments = await Comments.find({ postId })
+      .populate({ // populate user
+        path: "userId",
+        select: "firstName lastName location profileUrl -password",
+      })
+      .populate({ // populate replies
+        path: "replies.userId",
+        select: "firstName lastName location profileUrl -password",
+      })
+      .sort({ _id: -1 }); // sort by id
+    
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "successfully",
+      data: postComments,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};

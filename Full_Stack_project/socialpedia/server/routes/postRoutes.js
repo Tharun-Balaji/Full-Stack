@@ -3,6 +3,7 @@ import express from "express";
 import userAuth from "../middlewares/authMiddleware.js";
 import {
   createPost,
+  getComments,
   getPost,
   getPosts,
   getUserPost
@@ -17,6 +18,11 @@ router.post("/create-post", userAuth, createPost);
 router.post("/", userAuth, getPosts);
 router.post("/:id", userAuth, getPost);
 
+// get user posts
 router.post("/get-user-post/:id", userAuth, getUserPost);
+
+
+// get comments
+router.get("/comments/:postId", getComments);
 
 export default router;
