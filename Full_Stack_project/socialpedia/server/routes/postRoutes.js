@@ -4,7 +4,8 @@ import userAuth from "../middlewares/authMiddleware.js";
 import {
   createPost,
   getPost,
-  getPosts
+  getPosts,
+  getUserPost
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -16,6 +17,6 @@ router.post("/create-post", userAuth, createPost);
 router.post("/", userAuth, getPosts);
 router.post("/:id", userAuth, getPost);
 
-
+router.post("/get-user-post/:id", userAuth, getUserPost);
 
 export default router;

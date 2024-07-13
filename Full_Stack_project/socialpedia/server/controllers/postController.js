@@ -103,7 +103,7 @@ export const getPosts = async (req, res, next) => {
   }
 };
 
-export const getPost = async (req, res, next) => { 
+export const getPost = async (req, res, next) => {
 
   try {
     // get post id
@@ -114,23 +114,23 @@ export const getPost = async (req, res, next) => {
       path: "userId",
       select: "firstName lastName location profileUrl -password",
     })
-    .populate({ // populate comments
-      path: "comments",
-      populate: { // populate users
-        path: "userId",
-        select: "firstName lastName location profileUrl -password",
-      },
-      options: { // sort comments
-        sort: "-_id",
-      },
-    })
-    .populate({ 
-      path: "comments",
-      populate: { // populate replies
-        path: "replies.userId",
-        select: "firstName lastName location profileUrl -password",
-      },
-    });
+      .populate({ // populate comments
+        path: "comments",
+        populate: { // populate users
+          path: "userId",
+          select: "firstName lastName location profileUrl -password",
+        },
+        options: { // sort comments
+          sort: "-_id",
+        },
+      })
+      .populate({
+        path: "comments",
+        populate: { // populate replies
+          path: "replies.userId",
+          select: "firstName lastName location profileUrl -password",
+        },
+      });
 
     res.status(200).json({
       success: true,
@@ -141,4 +141,34 @@ export const getPost = async (req, res, next) => {
     console.log(error);
     res.status(404).json({ message: error.message });
   }
-}
+};
+
+export const getUserPost = async (req, res, next) => { 
+  
+  try {
+
+    // get user id
+    const { id } = req.params;
+
+    // get posts
+    const post = await Posts.find({ userId: id }) // search by user id
+      .populate({ // populate user
+        path: "userId",
+        select: "firstName lastName location profileUrl -password",
+      })
+      .sort({ _id: -1 }); // sort by id
+    
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "successfully",
+      data: post,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
