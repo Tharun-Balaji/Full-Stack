@@ -376,5 +376,43 @@ export const commentPost = async (req, res, next) => {
 };
 
 export const replyPostComment = async (req, res, next) => { 
-  
+
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // get comment and reply at
+    const { comment, replyAt, from } = req.body;
+
+    // get comment id
+    const { id } = req.params;
+
+    // check if comment is empty
+    if (comment === null) {
+      return res.status(404).json({ message: "Comment is required." });
+    }
+
+    // get comment
+    const commentInfo = await Comments.findById(id);
+
+    // add reply
+    commentInfo.replies.push({
+      comment,
+      replyAt,
+      from,
+      userId,
+      created_At: Date.now(),
+    });
+
+    // update comment
+    commentInfo.save();
+
+    // send response
+    res.status(200).json(commentInfo);
+    
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
 };
