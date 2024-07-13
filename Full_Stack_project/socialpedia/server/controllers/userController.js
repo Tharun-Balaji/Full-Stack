@@ -4,7 +4,7 @@ import Users from "../models/userModel.js";
 import { compareString, hashString } from "../utils/index.js";
 import { resetPasswordLink } from "../utils/sendEmail.js";
 import PasswordReset from './../models/PasswordReset.js';
-import FriendRequest from './../models/friendRequest';
+import FriendRequest from './../models/friendRequest.js';
 
 export const verifyEmail = async (req, res) => {
   console.log("verifyEmail");
@@ -497,7 +497,44 @@ export const profileViews = async (req, res, next) => {
       error: error.message,
     });
   }
- };
+};
+ 
+export const suggestedFriends = async (req, res, next) => {
+
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // create query object
+    const queryObject = {};
+
+    // add user id to query object
+    queryObject._id = { $ne: userId }; // not equal to user id
+
+    // add friends to query object
+    queryObject.friends = { $nin: userId }; // not in user id
+
+    // find suggested friends
+    const queryResult = Users.find(queryObject)
+      .limit(15) // limit to 15 friends
+      .select("firstName lastName profileUrl profession -password"); // select fields
+    
+    // get suggested friends
+    const suggestedFriends = await queryResult;
+
+    // send response
+    res.status(200).json({
+      success: true,
+      data: suggestedFriends,
+    });
+
+
+  }catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
 
  
 

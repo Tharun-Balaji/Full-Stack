@@ -9,6 +9,7 @@ import {
   profileViews,
   requestPasswordReset,
   resetPassword,
+  suggestedFriends,
   updateUser,
   verifyEmail
 } from "../controllers/userController.js";
