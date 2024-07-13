@@ -4,6 +4,7 @@ import Users from "../models/userModel.js";
 import { compareString, hashString } from "../utils/index.js";
 import { resetPasswordLink } from "../utils/sendEmail.js";
 import PasswordReset from './../models/PasswordReset.js';
+import FriendRequest from './../models/friendRequest';
 
 export const verifyEmail = async (req, res) => {
   console.log("verifyEmail");
@@ -302,7 +303,63 @@ export const updateUser = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 
- };
+};
+ 
+export const friendRequest = async (req, res, next) => {
+  try {
+
+    // get user id
+    const { userId } = req.body.user;
+
+    // get request to
+    const { requestTo } = req.body;
+
+    // check if friend request already exists
+    const requestExist = await FriendRequest.findOne({
+      requestFrom: userId,
+      requestTo,
+    });
+
+    // if friend request already exists
+    if (requestExist) {
+      next("Friend Request already sent.");
+      return;
+    }
+
+    // check if there is an active friend request from requestTo
+    const accountExist = await FriendRequest.findOne({
+      requestFrom: requestTo,
+      requestTo: userId,
+    });
+
+    // if friend request already exists
+    if (accountExist) {
+      next("Friend Request already sent.");
+      return;
+    }
+
+    // create friend request
+    const newRes = await FriendRequest.create({
+      requestTo,
+      requestFrom: userId,
+    });
+
+    // send response
+    res.status(201).json({
+      success: true,
+      message: "Friend Request sent successfully",
+    });
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "auth error",
+      success: false,
+      error: error.message,
+    });
+  }
+}
  
 
 
