@@ -26,7 +26,10 @@ router.post("/get-user-post/:id", userAuth, getUserPost);
 // get comments
 router.get("/comments/:postId", getComments);
 
-//like and comment on posts
+//like on posts
 router.post("/like/:id", userAuth, likePost);
+
+//like on comments
+router.post("/like-comment/:id/:rid?", userAuth, likePostComment);
 
 export default router;
