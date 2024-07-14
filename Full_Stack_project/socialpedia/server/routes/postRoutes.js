@@ -41,4 +41,7 @@ router.post("/comment/:id", userAuth, commentPost);
 //reply on comments
 router.post("/reply-comment/:id", userAuth, replyPostComment);
 
+//delete post
+router.delete("/:id", userAuth, deletePost);
+
 export default router;
