@@ -10,7 +10,7 @@ const requestTimer = (req, res, next) => {
     // Convert to milliseconds
     const time = diff[0] * 1e3 + diff[1] * 1e-6;
 
-    console.log(`${req.method} ${req.originalUrl} - ${time.toFixed(2)}ms`);
+    console.log(`requestTimer: ${req.method} ${req.originalUrl} - ${time.toFixed(2)}ms`);
   });
 
   // Pass control to the next middleware

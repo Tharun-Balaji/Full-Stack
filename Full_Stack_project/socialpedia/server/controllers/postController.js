@@ -114,24 +114,24 @@ export const getPost = async (req, res, next) => {
     const post = await Posts.findById(id).populate({ // populate user
       path: "userId",
       select: "firstName lastName location profileUrl -password",
-    })
-      .populate({ // populate comments
-        path: "comments",
-        populate: { // populate users
-          path: "userId",
-          select: "firstName lastName location profileUrl -password",
-        },
-        options: { // sort comments
-          sort: "-_id",
-        },
-      })
-      .populate({
-        path: "comments",
-        populate: { // populate replies
-          path: "replies.userId",
-          select: "firstName lastName location profileUrl -password",
-        },
-      });
+    });
+      // .populate({ // populate comments
+      //   path: "comments",
+      //   populate: { // populate users
+      //     path: "userId",
+      //     select: "firstName lastName location profileUrl -password",
+      //   },
+      //   options: { // sort comments
+      //     sort: "-_id",
+      //   },
+      // })
+      // .populate({
+      //   path: "comments",
+      //   populate: { // populate replies
+      //     path: "replies.userId",
+      //     select: "firstName lastName location profileUrl -password",
+      //   },
+      // });
 
     res.status(200).json({
       success: true,
