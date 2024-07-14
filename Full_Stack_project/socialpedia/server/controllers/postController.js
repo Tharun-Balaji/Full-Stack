@@ -291,39 +291,38 @@ export const likePostComment = async (req, res, next) => {
           },
         }
       );
-    }
 
-    // get index
-    const index = replyComments?.replies[0]?.likes.findIndex(
-      (i) => i === String(userId)
-    );
-
-    if (index === -1) { // if not liked
-      replyComments.replies[0].likes.push(userId);
-    } else { // if liked
-      replyComments.replies[0].likes = replyComments.replies[0]?.likes.filter(
-        (i) => i !== String(userId)
+      // get index
+      const index = replyComments?.replies[0]?.likes.findIndex(
+        (i) => i === String(userId)
       );
-    }
 
-    // create query object
-    const query = { _id: id, "replies._id": rid };
+      if (index === -1) { // if not liked
+        replyComments.replies[0].likes.push(userId);
+      } else { // if liked
+        replyComments.replies[0].likes = replyComments.replies[0]?.likes.filter(
+          (i) => i !== String(userId)
+        );
+      }
 
-    // update comment
-    const updated = {
+      // create query object
+      const query = { _id: id, "replies._id": rid };
+
+      // update comment
+      const updated = {
         $set: { // set
           "replies.$.likes": replyComments.replies[0].likes, // likes
         },
       };
 
-    // update comment
-    const result = await Comments.updateOne(query, updated, { new: true });
+      // update comment
+      const result = await Comments.updateOne(query, updated, { new: true });
     
 
-    // send response
-    res.status(201).json(result);
+      // send response
+      res.status(201).json(result);
 
-
+    }
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
@@ -411,6 +410,26 @@ export const replyPostComment = async (req, res, next) => {
     // send response
     res.status(200).json(commentInfo);
     
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const deletePost = async (req, res, next) => {
+  try {
+
+    // get post id
+    const { id } = req.params;
+
+    // delete post
+    await Posts.findByIdAndDelete(id);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Deleted successfully",
+    });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

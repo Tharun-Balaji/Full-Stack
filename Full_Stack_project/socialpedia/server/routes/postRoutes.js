@@ -4,6 +4,7 @@ import userAuth from "../middlewares/authMiddleware.js";
 import {
   commentPost,
   createPost,
+  deletePost,
   getComments,
   getPost,
   getPosts,
