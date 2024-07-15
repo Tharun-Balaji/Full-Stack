@@ -103,7 +103,7 @@ export const likePost = async ({ uri, token }) => {
 
 };
 
-export const deletePost = async ({ id, token }) => { 
+export const deletePost = async (id, token ) => { 
 
   try {
     const res = await apiRequest({
@@ -114,6 +114,33 @@ export const deletePost = async ({ id, token }) => {
     return res;
   } catch (error) {
     console.log(error); 
+  }
+};
+
+export const getUserInfo = async ( token, id ) => { 
+
+  try {
+    // if id is not passed
+    const uri = id === undefined ? "/users/get-user" : `/users/get-user/${id}`;
+
+    // get user
+    const res = await apiRequest({
+      url: uri,
+      method: "POST",
+      token,
+    });
+
+    // if authentication failed
+    if (res.message === "Authentication failed") {
+      localStorage.removeItem("user"); // remove token
+      window.alert("User Session Expired. Please Login Again."); // show alert
+      window.location.replace("/login"); // redirect
+    }
+
+    // return user
+    return res?.user;
+  } catch (error) {
+    console.log(error);
   }
 };
 
