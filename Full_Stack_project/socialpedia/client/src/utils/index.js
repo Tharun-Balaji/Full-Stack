@@ -86,6 +86,20 @@ export const fetchPosts = async ({ token, dispatch, uri, data }) => {
 };
 
 export const likePost = async ({ uri, token }) => { 
-  
+
+  try {
+    
+    const res = await apiRequest({
+      url: uri,
+      method: "POST",
+      token,
+    });
+
+    return res;
+
+  } catch (error) {
+    console.log(error)
+  }
+
 };
 
