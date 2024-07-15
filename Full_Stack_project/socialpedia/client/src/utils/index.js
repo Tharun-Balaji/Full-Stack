@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SetPosts } from "../redux/postSlice";
 
 // api url
 const API_URL = "http://localhost:8800";
@@ -63,5 +64,28 @@ export const handleFileUpload = async (uploadFile) => {
 
   }
 
+};
+
+export const fetchPosts = async ({ token, dispatch, uri, data }) => { 
+  
+  try {
+    // get posts
+    const res = await apiRequest({
+      url: uri || "/posts",
+      method: "POST",
+      token,
+      data: data || {},
+    });
+
+    // set posts
+    dispatch(SetPosts(res?.data));
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const likePost = async ({ uri, token }) => { 
+  
 };
 
