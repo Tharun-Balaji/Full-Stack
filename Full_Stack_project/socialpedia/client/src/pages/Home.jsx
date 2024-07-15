@@ -11,12 +11,13 @@ import {
 	EditProfile
 } from "../components";
 import { friends, requests, posts } from "../assets/data";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NoProfile } from '../assets';
 import { BsPersonFillAdd, BsFiletypeGif } from "react-icons/bs";
 import { useForm } from 'react-hook-form';
 import { BiImages, BiSolidVideo } from "react-icons/bi";
+import { apiRequest, handleFileUpload } from '../utils';
 
 export default function Home() {
 
@@ -29,9 +30,67 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+	const { register,
+		handleSubmit,
+		reset,
+		formState: { errors }
+	} = useForm();
 
-  const handlePostSubmit = (data) => { };
+	const handlePostSubmit = async (data) => { 
+		setPosting(true);
+		setErrMsg("");
+
+		try {
+			
+			const uri = file && (await handleFileUpload(file));
+
+			const newData = uri ? { ...data, image: uri } : data;
+
+			const res = await apiRequest({
+				url: "/posts/create-post",
+				method: "POST",
+				data: newData,
+				token: user?.token,
+			});
+
+			if (res?.status === "failed") {
+				setErrMsg(res);
+			} else {
+				reset({
+					description: "",
+				});
+				setFile(null);
+				setErrMsg("");
+				await fetchPosts();
+			}
+
+			setPosting(false);
+
+		} catch (error) {
+			console.log(error);
+			setPosting(false);
+		}
+	};
+	
+	const fetchPosts = async () => {};
+	const handleLikePost = async () => {};
+	const handleDelete = async () => { };
+	const fetchFriendRequests = async () => { };
+	const fetchSuggestedFriends = async () => { };
+	const handleFriendRequest = async () => { };
+	const acceptFriendRequest = async () => { };
+	const getUser = async () => { };
+	
+
+	useEffect(() => {
+		setLoading(true);
+		getUser();
+		fetchPosts();
+		fetchFriendRequests();
+		fetchSuggestedFriends();
+		// setLoading(false);
+	},[])
+
 
 	return (
 		<>
