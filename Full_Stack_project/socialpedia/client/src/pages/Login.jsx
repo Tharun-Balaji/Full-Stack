@@ -8,8 +8,15 @@ import { ImConnection } from "react-icons/im";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BgImage } from "../assets";
+import { apiRequest } from "../utils";
+import { UserLogin } from "../redux/userSlice";
 
 export default function Login() {
+
+	const [errMsg, setErrMsg] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const dispatch = useDispatch();
+
 	const {
 		register,
 		handleSubmit,
@@ -18,12 +25,37 @@ export default function Login() {
 		mode: "onChange",
 	});
 
-	const [errMsg, setErrMsg] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const onSubmit = async (data) => {
 
-	const dispatch = useDispatch();
+		setIsSubmitting(true);
 
-	const onSubmit = async (data) => {};
+		try {
+			
+			const res = await apiRequest({
+				url: "/auth/login",
+				method: "POST",
+				data,
+			});
+
+			if (res?.status === "failed") {
+				setErrMsg(res);
+			} else {
+
+				setErrMsg("");
+				
+				const newData = { token: res?.token, ...res?.user };
+				dispatch(UserLogin(newData));
+				window.location.replace("/");
+			}
+
+			setIsSubmitting(false);
+
+		} catch (error) {
+			console.log(error);
+
+			setIsSubmitting(false);
+		}
+	};
 
 	return (
 		<div className="bg-bgColor w-full h-[100vh] flex items-center justify-center p-6">
