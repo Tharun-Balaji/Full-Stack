@@ -17,7 +17,7 @@ import { NoProfile } from '../assets';
 import { BsPersonFillAdd, BsFiletypeGif } from "react-icons/bs";
 import { useForm } from 'react-hook-form';
 import { BiImages, BiSolidVideo } from "react-icons/bi";
-import { apiRequest, fetchPosts, handleFileUpload, likePost } from '../utils';
+import { apiRequest, deletePost, fetchPosts, handleFileUpload, likePost } from '../utils';
 
 export default function Home() {
 
@@ -85,7 +85,12 @@ export default function Home() {
 	};
 	
 
-	const handleDelete = async () => { };
+	const handleDelete = async (id) => { 
+		await deletePost(id, user?.token);
+		await fetchPost();
+	};
+
+
 	const fetchFriendRequests = async () => { };
 	const fetchSuggestedFriends = async () => { };
 	const handleFriendRequest = async () => { };
