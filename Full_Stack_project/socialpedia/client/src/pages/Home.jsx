@@ -140,7 +140,28 @@ export default function Home() {
 	 };
 
 
-	const acceptFriendRequest = async () => { };
+	const acceptFriendRequest = async (id, status) => {
+
+		try {
+			
+			const res = await apiRequest({
+				url: "/users/accept-request",
+				method: "POST",
+				token: user?.token,
+				data: {
+					rid: id,
+					status
+				}
+			});
+
+			setFriendRequest(res?.data);
+
+		} catch (error) {
+			console.log(error)
+		}
+	 };
+
+
 	const getUser = async () => { };
 	
 
@@ -335,10 +356,12 @@ export default function Home() {
 											<div className="flex gap-1">
 												<CustomButton
 													title="Accept"
+													onClick={() => acceptFriendRequest(_id,"Accepted")}
 													containerStyles="bg-[#0444a4] text-xs text-white px-1.5 py-1 rounded-full"
 												/>
 												<CustomButton
 													title="Deny"
+													onClick={() => acceptFriendRequest(_id,"Denied")}
 													containerStyles="border border-[#666] text-xs text-ascent-1 px-1.5 py-1 rounded-full"
 												/>
 											</div>
