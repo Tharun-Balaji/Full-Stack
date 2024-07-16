@@ -26,7 +26,10 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 		setLoading(false);
 	};
 
-	const handleLike = async () => {};
+	const handleLike = async (uri) => {
+		await likePost(uri);
+		await getComments(post?._id);
+	};
 
   return (
 		<div className="mb-2 bg-primary p-4 rounded-xl">
@@ -65,7 +68,7 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 					{post?.description?.length > 301 &&
 						(showAll === post?._id ? (
 							<span
-								className="text-blue ml-2 font-mediu cursor-pointer"
+								className="text-blue ml-2 font-medium cursor-pointer"
 								onClick={() => setShowAll(0)}
 							>
 								Show Less
@@ -89,7 +92,9 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 				)}
 			</div>
 			<div className="mt-4 flex justify-between items-center px-3 py-2 text-ascent-1 text-base border-t border-[#66666645]">
-				<p className="flex gap-2 items-center text-base cursor-pointer">
+				<p className="flex gap-2 items-center text-base cursor-pointer"
+					onClick={() => handleLike("/posts/like/".concat(post?._id))}
+				>
 					{post?.likes?.includes(user?._id) ? (
 						<BiSolidLike size={20} color="blue" />
 					) : (

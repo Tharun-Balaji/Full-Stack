@@ -51,7 +51,7 @@ export const handleFileUpload = async (uploadFile) => {
   try {
     
     // upload image
-    const response = axios.post(
+    const response = await axios.post(
       `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_ID}/image/upload`,
       formData
     );
@@ -66,7 +66,7 @@ export const handleFileUpload = async (uploadFile) => {
 
 };
 
-export const fetchPosts = async ({ token, dispatch, uri, data }) => { 
+export const fetchPosts = async ( token, dispatch, uri, data ) => { 
   
   try {
     // get posts

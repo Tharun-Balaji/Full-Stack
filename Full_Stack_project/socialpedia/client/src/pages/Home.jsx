@@ -1,5 +1,5 @@
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	FriendsCard,
 	ProfileCard,
@@ -10,18 +10,19 @@ import {
   PostCard,
 	EditProfile
 } from "../components";
-import { friends, requests, posts } from "../assets/data";
+import { friends, requests } from "../assets/data";
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NoProfile } from '../assets';
 import { BsPersonFillAdd, BsFiletypeGif } from "react-icons/bs";
 import { useForm } from 'react-hook-form';
 import { BiImages, BiSolidVideo } from "react-icons/bi";
-import { apiRequest, handleFileUpload } from '../utils';
+import { apiRequest, fetchPosts, handleFileUpload, likePost } from '../utils';
 
 export default function Home() {
 
-  const { user,edit } = useSelector((state) => state.user);
+	const { user, edit } = useSelector((state) => state.user);
+	const { posts } = useSelector((state) => state.posts);
   const [friendRequest, setFriendRequest] = useState(requests);
   const [suggestedFriends, setSuggestedFriends] = useState(friends);
   const [errMsg, setErrMsg] = useState("");
@@ -29,6 +30,7 @@ export default function Home() {
   const [posting, setPosting] = useState(false);
   const [loading, setLoading] = useState(false)
   
+	const dispatch = useDispatch();
 
 	const { register,
 		handleSubmit,
@@ -61,7 +63,7 @@ export default function Home() {
 				});
 				setFile(null);
 				setErrMsg("");
-				await fetchPosts();
+				await fetchPost();
 			}
 
 			setPosting(false);
@@ -72,8 +74,17 @@ export default function Home() {
 		}
 	};
 	
-	const fetchPosts = async () => {};
-	const handleLikePost = async () => {};
+	const fetchPost = async () => {
+		await fetchPosts(user?.token, dispatch);
+		setLoading(false);
+	};
+
+	const handleLikePost = async (uri) => {
+		await likePost({ uri:uri, token: user?.token });
+		await fetchPost();
+	};
+	
+
 	const handleDelete = async () => { };
 	const fetchFriendRequests = async () => { };
 	const fetchSuggestedFriends = async () => { };
@@ -85,7 +96,7 @@ export default function Home() {
 	useEffect(() => {
 		setLoading(true);
 		getUser();
-		fetchPosts();
+		fetchPost();
 		fetchFriendRequests();
 		fetchSuggestedFriends();
 		// setLoading(false);
@@ -180,7 +191,7 @@ export default function Home() {
 
 								<label
 									className="flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer"
-									htmlFor="vgifUpload"
+									htmlFor="gifUpload"
 								>
 									<input
 										type="file"
@@ -189,7 +200,7 @@ export default function Home() {
 											setFile(e.target.files[0])
 										}
 										className="hidden"
-										id="vgifUpload"
+										id="gifUpload"
 										accept=".gif"
 									/>
 									<BsFiletypeGif />
@@ -216,8 +227,8 @@ export default function Home() {
 									key={post?._id}
 									post={post}
 									user={user}
-									deletePost={() => {}}
-									likePost={() => {}}
+									deletePost={handleDelete}
+									likePost={handleLikePost}
 								/>
 							))
 						) : (
