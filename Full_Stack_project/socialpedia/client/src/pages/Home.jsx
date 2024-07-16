@@ -23,8 +23,8 @@ export default function Home() {
 
 	const { user, edit } = useSelector((state) => state.user);
 	const { posts } = useSelector((state) => state.posts);
-  const [friendRequest, setFriendRequest] = useState(requests);
-  const [suggestedFriends, setSuggestedFriends] = useState(friends);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const [file, setFile] = useState(null);
   const [posting, setPosting] = useState(false);
@@ -91,8 +91,43 @@ export default function Home() {
 	};
 
 
-	const fetchFriendRequests = async () => { };
-	const fetchSuggestedFriends = async () => { };
+	const fetchFriendRequests = async () => {
+
+		try {
+			
+			const res = await apiRequest({
+				url: "/users/get-friend-request",
+				method: "POST",
+				token: user?.token,
+			});
+
+			setFriendRequest(res?.data);
+
+		} catch (error) {
+			console.log(error)
+		}
+
+	 };
+
+
+	const fetchSuggestedFriends = async () => {
+
+		try {
+			
+			const res = await apiRequest({
+				url: "/users/suggested-friends",
+				method: "POST",
+				token: user?.token,
+			});
+
+			setSuggestedFriends(res?.data);
+
+		} catch (error) {
+			console.log(error);
+		}
+	 };
+
+
 	const handleFriendRequest = async () => { };
 	const acceptFriendRequest = async () => { };
 	const getUser = async () => { };
