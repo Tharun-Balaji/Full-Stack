@@ -17,7 +17,8 @@ import { NoProfile } from '../assets';
 import { BsPersonFillAdd, BsFiletypeGif } from "react-icons/bs";
 import { useForm } from 'react-hook-form';
 import { BiImages, BiSolidVideo } from "react-icons/bi";
-import { apiRequest, deletePost, fetchPosts, handleFileUpload, likePost, sendFriendRequest } from '../utils';
+import { apiRequest, deletePost, fetchPosts, getUserInfo, handleFileUpload, likePost, sendFriendRequest } from '../utils';
+import { UserLogin } from '../redux/userSlice';
 
 export default function Home() {
 
@@ -162,7 +163,13 @@ export default function Home() {
 	 };
 
 
-	const getUser = async () => { };
+	const getUser = async () => {
+
+		const res = await getUserInfo(user?.token);
+		const newData = {token:user?.token, ...res};
+		dispatch(UserLogin(newData));
+		
+	 };
 	
 
 	useEffect(() => {
