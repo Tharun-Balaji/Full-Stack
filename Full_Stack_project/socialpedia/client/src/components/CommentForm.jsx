@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { NoProfile } from '../assets';
 import { CustomButton, Loading, TextInput } from '../components';
+import { apiRequest } from '../utils';
 
 export default function CommentForm({ user, id, replyAt, getComments }) {
 	const [loading, setLoading] = useState(false);
@@ -15,7 +16,47 @@ export default function CommentForm({ user, id, replyAt, getComments }) {
 		mode: "onChange",
 	});
 
-	const onSubmit = async (data) => {};
+	const onSubmit = async (data) => {
+		setLoading(true);
+		setErrMsg("");
+
+		try {
+			
+			const URL = !replyAt ? "/posts/comment/".concat(id) : "/posts/reply-comment/".concat(id);
+			
+			const newData = {
+				comment: data.comment,
+				from: user?.firstName + " " + user?.lastName,
+				replyAt: replyAt,
+			};
+
+			const res = await apiRequest({
+				url: URL,
+				method: "POST",
+				data: newData,
+				token: user?.token,
+			});
+
+			if (res?.status === "failed") { 
+				setErrMsg(res);
+			} else {
+				reset(
+					{ comment: "" }
+				);
+				setErrMsg("");
+				await getComments();
+			}
+
+			setLoading(false);
+
+		} catch (error) {
+			
+			console.log(error);
+			setLoading(false);
+
+		}
+
+	};
 
 	return (
 		<form
