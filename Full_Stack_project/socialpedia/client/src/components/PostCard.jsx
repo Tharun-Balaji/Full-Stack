@@ -7,6 +7,22 @@ import { NoProfile } from "../assets";
 import moment from "moment";
 import { postComments } from "../assets/data";
 import ReplyCard from "./ReplyCard";
+import { apiRequest } from "../utils";
+
+
+const getPostComments = async (id) => {
+
+	try {
+		const res = await apiRequest({
+			url: "/posts/comments/".concat(id),
+			method: "GET",
+		});
+
+		return res.data;
+	} catch (error) {
+		console.log(error)
+	}
+ };
 
 export default function PostCard({ post, user, deletePost, likePost }) {
   const [showAll, setShowAll] = useState(0);
@@ -19,10 +35,13 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 	// console.log(comments);
 	// console.log(postComments);
 	
-	const getComments = async () => { 
+	const getComments = async (id) => { 
 		// console.log("hello");
 		setReplyComments(0);
-		setComments(postComments);
+
+		const result = await getPostComments(id);
+
+		setComments(result);
 		setLoading(false);
 	};
 
@@ -137,7 +156,7 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 					{loading ? (
 						<Loading />
 					) : comments?.length > 0 ? (
-						(console.log(comments),
+						(
 						comments?.map((comment) => (
 							<div className="w-full py-2" key={comment?._id}>
 								<div className="flex gap-3 items-center mb-1">
@@ -179,7 +198,10 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 									</p>
 
 									<div className="mt-2 flex gap-6">
-										<p className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer">
+										<p
+											className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer"
+											onClick={() => handleLike("/posts/like-comment/".concat(comment?._id))}
+										>
 											{comment?.likes?.includes(
 												user?._id
 											) ? (
