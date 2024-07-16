@@ -17,7 +17,7 @@ import { NoProfile } from '../assets';
 import { BsPersonFillAdd, BsFiletypeGif } from "react-icons/bs";
 import { useForm } from 'react-hook-form';
 import { BiImages, BiSolidVideo } from "react-icons/bi";
-import { apiRequest, deletePost, fetchPosts, handleFileUpload, likePost } from '../utils';
+import { apiRequest, deletePost, fetchPosts, handleFileUpload, likePost, sendFriendRequest } from '../utils';
 
 export default function Home() {
 
@@ -128,7 +128,18 @@ export default function Home() {
 	 };
 
 
-	const handleFriendRequest = async () => { };
+	const handleFriendRequest = async (id) => {
+
+		try {
+			
+			await sendFriendRequest(user?.token, id);
+			await fetchSuggestedFriends();
+		} catch (error) {
+			console.log(error)
+		}
+	 };
+
+
 	const acceptFriendRequest = async () => { };
 	const getUser = async () => { };
 	
@@ -374,7 +385,7 @@ export default function Home() {
 										<div className="flex gap-1">
 											<button
 												className="bg-[#0444a430] text-sm text-white p-1 rounded"
-												onClick={() => {}}
+												onClick={() => handleFriendRequest(friend?._id)}
 											>
 												<BsPersonFillAdd
 													size={20}
