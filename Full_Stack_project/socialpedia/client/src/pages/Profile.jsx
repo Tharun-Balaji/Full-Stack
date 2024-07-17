@@ -1,23 +1,54 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { FriendsCard, Loading, PostCard, ProfileCard, TopBar } from "../components"
-import { posts } from '../assets/data';
+import {
+	FriendsCard,
+	Loading,
+	PostCard,
+	ProfileCard,
+	TopBar
+} from "../components"
+import { deletePost, fetchPosts, getUserInfo, likePost } from '../utils';
+// import { posts } from '../assets/data';
 
 export default function Profile() {
 
-   const { id } = useParams();
-   const dispatch = useDispatch();
-   const { user } = useSelector((state) => state.user);
-  //  const { posts } = useSelector((state) => state.posts);
-   const [userInfo, setUserInfo] = useState(user);
-  const [loading, setLoading] = useState(false);
-  
-  const handleDelete = () => {};
-  const handleLikePost = () => {};
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state.user);
+	const { posts } = useSelector((state) => state.posts);
+	const [userInfo, setUserInfo] = useState(user);
+	const [loading, setLoading] = useState(false);
 
+	const uri = "/posts/get-user-post/".concat(id);
 
-  return (
+	const getUser = async () => {
+		const res = await getUserInfo(user?.token, id);
+		setUserInfo(res);
+	};
+
+	const getPosts = async () => {
+		await fetchPosts(user?.token, dispatch, uri);
+		setLoading(false);
+	};
+
+	const handleDelete = async (id) => {
+		await deletePost(id, user?.token);
+		await getPosts();
+	};
+	
+	const handleLikePost = async () => {
+		await likePost({ uri: uri, token: user?.token });
+		await getPosts();
+	};
+
+	useEffect(() => {
+		setLoading(true);
+		getUser();
+		getPosts();
+	},[id]);
+
+	return (
 		<>
 			<div className="home w-full px-0 lg:px-10 pb-20 2xl:px-40 bg-bgColor lg:rounded-lg h-screen overflow-hidden">
 				<TopBar />
@@ -61,5 +92,5 @@ export default function Profile() {
 				</div>
 			</div>
 		</>
-  );
+	);
 }
