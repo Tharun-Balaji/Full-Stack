@@ -57,7 +57,7 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 					<img
 						src={post?.userId?.profileUrl ?? NoProfile}
 						alt={post?.userId?.firstName}
-						className="w-14 h-14 object-cover rounded-full"
+						className="w-12 h-12 md:w-14 md:h-14  object-cover rounded-full"
 					/>
 				</Link>
 				<div className="w-full flex justify-between">
@@ -71,9 +71,12 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 						<span className="text-ascent-2">
 							{post?.userId?.location}
 						</span>
+						<span className="flex md:hidden text-ascent-2">
+							{moment(post?.createdAt ?? new Date()).fromNow()}
+						</span>
 					</div>
 
-					<span className="text-ascent-2">
+					<span className="hidden md:flex text-ascent-2">
 						{moment(post?.createdAt ?? new Date()).fromNow()}
 					</span>
 				</div>
@@ -111,7 +114,8 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 				)}
 			</div>
 			<div className="mt-4 flex justify-between items-center px-3 py-2 text-ascent-1 text-base border-t border-[#66666645]">
-				<p className="flex gap-2 items-center text-base cursor-pointer"
+				<p
+					className="flex gap-2 items-center text-base cursor-pointer"
 					onClick={() => handleLike("/posts/like/".concat(post?._id))}
 				>
 					{post?.likes?.includes(user?._id) ? (
@@ -156,7 +160,6 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 					{loading ? (
 						<Loading />
 					) : comments?.length > 0 ? (
-						(
 						comments?.map((comment) => (
 							<div className="w-full py-2" key={comment?._id}>
 								<div className="flex gap-3 items-center mb-1">
@@ -186,8 +189,7 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 										</Link>
 										<span className="text-ascent-2 text-sm">
 											{moment(
-												comment?.createdAt ??
-													"2023-05-25"
+												comment?.createdAt ?? new Date()
 											).fromNow()}
 										</span>
 									</div>
@@ -200,7 +202,13 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 									<div className="mt-2 flex gap-6">
 										<p
 											className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer"
-											onClick={() => handleLike("/posts/like-comment/".concat(comment?._id))}
+											onClick={() =>
+												handleLike(
+													"/posts/like-comment/".concat(
+														comment?._id
+													)
+												)
+											}
 										>
 											{comment?.likes?.includes(
 												user?._id
@@ -271,7 +279,7 @@ export default function PostCard({ post, user, deletePost, likePost }) {
 										))}
 								</div>
 							</div>
-						)))
+						))
 					) : (
 						<span className="flex text-sm py-4 text-ascent-2 text-center">
 							No Comments, be first to comment

@@ -7,6 +7,7 @@ import { BsMoon, BsSunFill } from "react-icons/bs";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { SetTheme } from "../redux/theme";
 import { Logout } from "../redux/userSlice";
+import { fetchPosts } from "../utils";
 
 
 
@@ -19,7 +20,9 @@ export default function TopBar() {
   const { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
-  const handleSearch = async (data) => { };
+	const handleSearch = async (data) => { 
+		await fetchPosts(user?.token, dispatch, "", data);
+	};
   
   const handleTheme = () => { 
     const themeValue = theme === "light" ? "dark" : "light";

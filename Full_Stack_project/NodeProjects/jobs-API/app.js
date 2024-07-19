@@ -23,6 +23,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 const connectDB = require('./db/connect');
 const auth = require('./middleware/authentication');
 
+
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
@@ -42,6 +43,7 @@ app.use("/api/v1/jobs", auth, jobsRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
+
 
 const port = process.env.PORT || 3000;
 
