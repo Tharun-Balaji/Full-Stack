@@ -1,7 +1,8 @@
 import userModel from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import { errorHandler } from "../utils/error.js";
 
-export async function signUp(req, res) { 
+export async function signUp(req, res, next) {
   // console.log(req.body);
 
   // get data from req.body
@@ -9,9 +10,7 @@ export async function signUp(req, res) {
 
   // check if all fields are filled
   if (!username || !email || !password || username === "" || email === "" || password === "") {
-    return res.status(400).json({
-      message: "All fields are required"
-    })
+    next(errorHandler(400, "All fields are required"));
   };
 
   // hash password
@@ -33,9 +32,6 @@ export async function signUp(req, res) {
       message: "User created successfully"
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: error.message
-    });
+    next(error);
   }
 };

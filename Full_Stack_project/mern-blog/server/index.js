@@ -21,7 +21,18 @@ const PORT = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
 
-app.use("/api/auth", authRoute)
+app.use("/api/auth", authRoute);
+
+// Error Handling
+app.use((error, req, res, next) => {
+  const statusCode = error.status || 500;
+  const message = error.message || "Something went wrong";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message
+  });
+});
 
 app.listen(PORT, () => {
   console.log("Listening on %i...", PORT);
