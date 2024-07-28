@@ -11,6 +11,7 @@ export async function signUp(req, res, next) {
   // check if all fields are filled
   if (!username || !email || !password || username === "" || email === "" || password === "") {
     next(errorHandler(400, "All fields are required"));
+    return;
   };
 
   // hash password
