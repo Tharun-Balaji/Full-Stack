@@ -7,6 +7,8 @@ const cors = require('cors');
 const xss = require('xss-clean');
 const rateLimiter = require('express-rate-limit');
 
+// logger middleware
+const morgan = require('morgan');
 
 const express = require('express');
 const app = express();
@@ -36,6 +38,7 @@ app.use(
   })
 );
 // extra packages
+app.use(morgan('dev'));
 
 // routes
 app.use("/api/v1/auth", authRouter);
@@ -51,7 +54,7 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI)
     app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
+      console.log("Server is listening on port %s...",port)
     );
   } catch (error) {
     console.log(error);
