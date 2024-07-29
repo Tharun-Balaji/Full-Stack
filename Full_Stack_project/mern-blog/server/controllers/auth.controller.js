@@ -88,3 +88,66 @@ export async function signIn(req, res, next) {
   }
 
 };
+
+export async function google(req, res, next) { 
+
+  // get data from req.body
+  const { email, name, googlePhotoUrl } = req.body;
+
+  try {
+    
+    // find user
+    const user = await userModel.findOne({ email });
+
+    //if user exists
+    if (user) { 
+
+      // create token
+      const token = jwt.sign({
+        id: user._id,
+      }, process.env.JWT_SECRET);
+
+      // delete password
+      user.password = undefined;
+
+      // send response
+      return res.status(200).cookie("access_token", token, { // set cookie
+        httpOnly: true // only accessible by web server
+      }).json(user)
+    } else { // if user doesn't exist
+      
+      const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      
+      // hash password
+      const hashedPassword = await bcryptjs.hash(generatedPassword, 10);
+
+      // create new user
+      const newUser = new userModel({
+        username: name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4 ),
+        email,
+        password: hashedPassword,
+        profilePicture:googlePhotoUrl
+      });
+
+      // save user
+      await newUser.save();
+
+      // create token
+      const token = jwt.sign({
+        id: newUser._id,
+      }, process.env.JWT_SECRET);
+
+      // delete password
+      newUser.password = undefined;
+
+      // send response
+      return res.status(201).cookie("access_token", token, { // set cookie
+        httpOnly: true // only accessible by web server
+      }).json(newUser);
+
+    }
+
+  } catch (error) {
+    next(error);
+  }
+};
