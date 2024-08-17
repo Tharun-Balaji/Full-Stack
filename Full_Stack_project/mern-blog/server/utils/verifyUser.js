@@ -4,6 +4,10 @@ import { errorHandler } from "./error.js";
 
 export const verifyToken = (req, res, next) => { 
 
+  console.log("verifying token...");
+
+
+
   // get token from cookies
   const token = req.cookies.access_token;
 

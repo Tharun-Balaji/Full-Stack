@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "console-ninja nodemon server/index.js",
+    "dev": "node --watch server/index.js",
     "start": "node server/index.js"
   },
   "keywords": [],
