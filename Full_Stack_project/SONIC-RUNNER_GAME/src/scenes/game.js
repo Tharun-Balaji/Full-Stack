@@ -63,6 +63,10 @@ function game() {
     k.destroy(ring);
     score++;
     scoreText.text = `SCORE : ${score}`;
+    sonic.ringCollectUI.text = '+1';
+    k.wait(1, () => {
+      sonic.ringCollectUI.text = '';
+    });
   });
 
 
