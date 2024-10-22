@@ -1,3 +1,4 @@
+import { makeMotobug } from '../entities/motobug';
 import { makeSonic } from '../entities/sonic';
 import k from '../kaplayCtx';
 
@@ -32,6 +33,36 @@ function game() {
   k.loop(1, () => {
     gameSpeed += 50;
   });
+
+  const spanMotoBug = () => {
+
+    const motobug = makeMotobug(k.vec2(1950, 733));
+
+    motobug.onUpdate(() => {
+
+      if (gameSpeed < 3000) {
+        motobug.move(-(gameSpeed + 300), 0);
+        return;
+      }
+
+      motobug.move(-gameSpeed, 0);
+    });
+
+    motobug.onExitScreen(() => {
+
+      if (motobug.pos.x < 0) {
+        k.destroy(motobug);
+      }
+
+    });
+
+    const waitTime = k.rand(0.5, 2.5);
+
+    k.wait(waitTime,spanMotoBug)
+
+  };
+
+  spanMotoBug();
 
   k.add([
     k.rect(1920, 300),
