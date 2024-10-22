@@ -24,12 +24,23 @@ function game() {
     k.add([k.sprite('platforms'), k.pos(384, 450), k.scale(4)]),
   ];
 
+  let score = 0;
+  let scoreMultiplier = 0;
+
+
+  const scoreText = k.add([
+    k.text('SCORE : 0', { font: 'mania', size: 72 }),
+    k.pos(20, 20),
+  ]);
+
   const sonic = makeSonic(k.vec2(200, 745));
   sonic.setControls();
   sonic.setEvents();
-  sonic.onCollide('enemy', (enemy) => { 
 
-    if (!sonic.isGrounded()) { 
+
+  sonic.onCollide('enemy', (enemy) => {
+
+    if (!sonic.isGrounded()) {
       k.play('destroy', { volume: 0.5 });
       k.play('hyper-ring', { volume: 0.5 });
       k.destroy(enemy);
@@ -42,6 +53,13 @@ function game() {
 
     k.go('gameover');
 
+  });
+
+  sonic.onCollide('ring', (ring) => {
+    k.play('ring', { volume: 0.5 });
+    k.destroy(ring);
+    score++;
+    scoreText.text = `SCORE : ${score}`;
   });
 
 
@@ -75,7 +93,7 @@ function game() {
 
     const waitTime = k.rand(0.5, 2.5);
 
-    k.wait(waitTime,spanMotoBug)
+    k.wait(waitTime, spanMotoBug);
 
   };
 
