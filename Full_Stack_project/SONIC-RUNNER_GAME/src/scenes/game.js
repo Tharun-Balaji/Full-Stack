@@ -22,7 +22,10 @@ function game() {
     k.add([k.sprite('platforms'), k.pos(384, 450), k.scale(4)]),
   ];
 
-  const sonic = makeSonic(k.vec2(200, 745))
+  const sonic = makeSonic(k.vec2(200, 745));
+  sonic.setControls();
+  sonic.setEvents();
+
 
   let gameSpeed = 300;
 
