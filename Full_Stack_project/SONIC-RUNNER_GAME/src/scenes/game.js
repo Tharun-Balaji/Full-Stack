@@ -46,6 +46,9 @@ function game() {
       k.destroy(enemy);
       sonic.play('jump');
       sonic.jump();
+      scoreMultiplier += 1;
+      score += 10 * scoreMultiplier;
+      scoreText.text = `SCORE : ${score}`;
       return;
     };
 
