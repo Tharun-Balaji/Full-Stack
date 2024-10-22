@@ -1,4 +1,5 @@
 import k from './kaplayCtx';
+import game from './scenes/game';
 import MainMenu from './scenes/mainMenu';
 
 
@@ -44,5 +45,6 @@ k.loadSound('ring', 'sounds/Ring.wav');
 k.loadSound('city', 'sounds/city.mp3');
 
 k.scene('main-menu', MainMenu);
+k.scene('game', game);
 
 k.go('main-menu');
