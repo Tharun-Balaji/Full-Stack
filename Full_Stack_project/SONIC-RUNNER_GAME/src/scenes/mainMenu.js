@@ -1,4 +1,4 @@
-import k from "../kaplayCtx";
+import k from '../kaplayCtx';
 
 
 function MainMenu() {
@@ -20,8 +20,8 @@ function MainMenu() {
 
 
   const platforms = [ // platforms
-    k.add([k.sprite("platforms"), k.pos(0, 450), k.scale(4)]), // first platform
-    k.add([k.sprite("platforms"), k.pos(384, 450), k.scale(4)]), // second platform
+    k.add([k.sprite('platforms'), k.pos(0, 450), k.scale(4)]), // first platform
+    k.add([k.sprite('platforms'), k.pos(384, 450), k.scale(4)]), // second platform
   ];
 
   k.onUpdate(() => {  // on update
