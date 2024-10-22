@@ -1,4 +1,5 @@
 import { makeMotobug } from '../entities/motobug';
+import { makeRing } from '../entities/ring';
 import { makeSonic } from '../entities/sonic';
 import k from '../kaplayCtx';
 
@@ -79,6 +80,25 @@ function game() {
   };
 
   spanMotoBug();
+
+  const spawnRing = () => {
+
+    const ring = makeRing(k.vec2(1950, 745));
+
+    ring.onUpdate(() => {
+      ring.move(-gameSpeed, 0);
+    });
+
+    ring.onExitScreen(() => {
+      if (ring.pos.x < 0) k.destroy(ring);
+    });
+
+    const waitTime = k.rand(0.5, 3);
+
+    k.wait(waitTime, spawnRing);
+  };
+
+  spawnRing();
 
   k.add([
     k.rect(1920, 300),
