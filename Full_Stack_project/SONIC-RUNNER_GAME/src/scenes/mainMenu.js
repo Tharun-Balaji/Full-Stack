@@ -36,7 +36,7 @@ function MainMenu() {
     k.add([k.sprite('platforms'), k.pos(384, 450), k.scale(4)]), // second platform
   ];
 
-  k.add([
+  k.add([ // text
     k.text('SONIC RING RUN',
       {
         font: 'mania',
@@ -47,7 +47,7 @@ function MainMenu() {
     k.anchor('center')
   ]);
 
-  k.add([
+  k.add([ // text
     k.text('Press Space/Click/Touch to Play', { font: 'mania', size: 32 }),
     k.anchor('center'),
     k.pos(k.center().x, k.center().y - 200),
