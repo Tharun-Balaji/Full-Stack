@@ -49,6 +49,9 @@ function game() {
       scoreMultiplier += 1;
       score += 10 * scoreMultiplier;
       scoreText.text = `SCORE : ${score}`;
+      if (scoreMultiplier === 1)
+        sonic.ringCollectUI.text = `+${10 * scoreMultiplier}`;
+      if (scoreMultiplier > 1) sonic.ringCollectUI.text = `x${scoreMultiplier}`;
       return;
     };
 

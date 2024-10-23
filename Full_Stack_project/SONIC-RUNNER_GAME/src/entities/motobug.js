@@ -1,4 +1,5 @@
-import k from "../kaplayCtx";
+// Import the kaplay context, which provides functionality for game development
+import k from '../kaplayCtx';
 
 /**
  * Creates a new motobug entity at the specified position.
