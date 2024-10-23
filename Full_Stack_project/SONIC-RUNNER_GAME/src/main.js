@@ -1,5 +1,6 @@
 import k from './kaplayCtx';
 import game from './scenes/game';
+import gameover from './scenes/gameover';
 import MainMenu from './scenes/mainMenu';
 
 
@@ -46,5 +47,6 @@ k.loadSound('city', 'sounds/city.mp3');
 
 k.scene('main-menu', MainMenu);
 k.scene('game', game);
+k.scene('gameover', gameover);
 
 k.go('main-menu');
