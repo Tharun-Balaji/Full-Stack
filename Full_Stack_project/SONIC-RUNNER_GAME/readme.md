@@ -13,21 +13,17 @@ This game is a classic Sonic-style platformer where you control Sonic as he navi
 
 * Classic Sonic gameplay with tight controls and responsive physics
 * Beautifully rendered graphics with a nostalgic feel
-* Challenging levels with multiple paths and secrets to discover
-* Variety of enemies and bosses to defeat
 * Collectible rings and chaos emeralds to unlock special abilities
 
 **How to Play**
 
 * Use the space bar or jump button to jump
-* Use the spin dash move to defeat enemies and break certain blocks
-* Collect rings to earn points and extra lives
-* Defeat bosses to progress through the levels
+* Collect rings to earn points 
+* Defeat enemies by jumping on them
 
 **System Requirements**
 
 * Windows, macOS, or Linux operating system
-* Kaplay game engine (included with the game)
 * 2 GB RAM or more
 * 1.5 GHz processor or faster
 * Graphics card with 256 MB VRAM or more
@@ -38,10 +34,6 @@ This game is a classic Sonic-style platformer where you control Sonic as he navi
 2. Extract the game files to a directory on your computer
 3. Run the `index.html` file to start the game
 
-**Troubleshooting**
-
-* If the game does not start, check that you have the latest version of the Kaplay game engine installed
-* If you experience any issues with the game, please report them to the issue tracker
 
 **License**
 
