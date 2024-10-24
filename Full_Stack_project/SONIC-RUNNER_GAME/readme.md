@@ -5,6 +5,8 @@ SONIC GAME
 
 A fan-made Sonic game built using the Kaplay game engine.
 
+Live Demo : https://tharunbalaji.itch.io/sonic-runner
+
 **Game Description**
 
 This game is a classic Sonic-style platformer where you control Sonic as he navigates through various levels, collecting rings and defeating enemies.
