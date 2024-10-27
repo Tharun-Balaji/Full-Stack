@@ -1,7 +1,6 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Footer, Header, PrivateRoute } from './components';
-import { About, DashBoard, Home, Projects, SignIn, SignUp } from './pages';
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Footer, Header, PrivateRoute } from "./components";
+import { About, DashBoard, Home, Projects, SignIn, SignUp } from "./pages";
 
 export default function App() {
 	return (
