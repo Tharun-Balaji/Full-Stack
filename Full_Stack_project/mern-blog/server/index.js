@@ -1,8 +1,8 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import morgan from "morgan";
-import { authRoute, userRoute } from "./routes/index.js";
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import { authRoute, userRoute } from './routes/index.js';
 import cookieParser from 'cookie-parser';
 
 
@@ -11,7 +11,7 @@ dotenv.config();
 
 
 mongoose.connect(process.env.MONGO).then(() => {
-  console.log("Connected to MongoDB");
+  console.log('Connected to MongoDB');
 }).catch((err) => {
   console.log(err);
 })
@@ -23,15 +23,15 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
 
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
-app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/user', userRoute);
 
 // Error Handling
 app.use((error, req, res, next) => {
   const statusCode = error.status || 500;
-  const message = error.message || "Something went wrong";
+  const message = error.message || 'Something went wrong';
   return res.status(statusCode).json({
     success: false,
     statusCode,
@@ -40,5 +40,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Listening on %i...", PORT);
+  console.log('Listening on %i...', PORT);
 });
