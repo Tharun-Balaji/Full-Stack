@@ -73,6 +73,7 @@ export async function signIn(req, res, next) {
     // create token
     const token = jwt.sign({
       id: validUser._id,
+      isAdmin: validUser.isAdmin  
     }, process.env.JWT_SECRET);
 
     // delete password
@@ -141,6 +142,7 @@ export async function google(req, res, next) {
       // create token
       const token = jwt.sign({
         id: newUser._id,
+        isAdmin: newUser.isAdmin
       }, process.env.JWT_SECRET);
 
       // delete password
