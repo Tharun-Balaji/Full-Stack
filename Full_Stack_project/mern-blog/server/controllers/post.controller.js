@@ -20,7 +20,7 @@ export const create = async (req, res, next) => {
   const newPost = new Post({ // create new post
     ...req.body, // get data from req.body
     slug, // set slug
-    userId: req.user._id // set user id
+    userId: req.user.id // set user id
   });
 
   try {
