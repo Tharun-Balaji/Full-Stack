@@ -35,3 +35,55 @@ export const create = async (req, res, next) => {
 
 
 };
+
+export const getPosts = async (req, res, next) => { 
+
+  try {
+    
+    const startIndex = parseInt(req.query.startIndex) || 0; // get start index
+    const limit = parseInt(req.query.limit) || 9; // get limit
+    const sortDirection = req.query.order === 'asc' ? 1 : -1; // get sort direction
+
+    const posts = await Post.find({
+      ...(req.query.userId && { userId: req.query.userId }), // filter by user id if provided
+      ...(req.query.category && { category: req.query.category }), // filter by category if provided
+      ...(req.query.slug && { slug: req.query.slug }), // filter by slug if provided
+      ...(req.query.postId && { _id: req.query.postId }), // filter by post id if provided
+      ...(req.query.searchTerm && {
+        $or: [ // $or allows us to search multiple fields at once
+          { title: { $regex: req.query.searchTerm, $options: 'i' } }, // search for posts that have a title that contains the search term (case insensitive)
+          { content: { $regex: req.query.searchTerm, $options: 'i' } }, // search for posts that have a content that contains the search term (case insensitive)
+        ],
+      }), // filter by search term if provided
+    })
+      .sort({ updatedAt: sortDirection }) // sort posts by updatedAt
+      .skip(startIndex) // skip posts based on start index
+      .limit(limit); // limit posts based on limit
+    
+    const totalPosts = await Post.countDocuments(); // count total posts
+
+    const now = new Date(); // get current date
+
+    const oneMonthAgo = new Date( // get one month ago date
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const lastMonthPosts = await Post.countDocuments({  // count posts created in the last month
+      createdAt: { $gte: oneMonthAgo }, // greater than or equal to one month ago
+    });
+
+    res.status(200).json({
+      posts,
+      totalPosts,
+      lastMonthPosts,
+    });
+
+  } catch (error) {
+    
+    next(error);
+
+  }
+
+};
