@@ -1,9 +1,9 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiUser, HiDocumentText } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signOutStart, signOutSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function DashSidebar() {
 	const location = useLocation();
@@ -11,6 +11,8 @@ function DashSidebar() {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	 const { currentUser } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
@@ -57,6 +59,17 @@ function DashSidebar() {
 							Profile
 						</Sidebar.Item>
 					</Link>
+					{currentUser.isAdmin && (
+						<Link to="/dashboard?tab=posts">
+							<Sidebar.Item
+								active={tab === "posts"}
+								icon={HiDocumentText}
+								as="div"
+							>
+								Posts
+							</Sidebar.Item>
+						</Link>
+					)}
 					<Sidebar.Item
 						icon={HiArrowSmRight}
 						className="cursor-pointer"
