@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Footer, Header, PrivateRoute } from "./components";
+import { Footer, Header, OnlyAdminPrivateRoute, PrivateRoute } from "./components";
 import { About, CreatePost, DashBoard, Home, Projects, SignIn, SignUp } from "./pages";
-import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
+
 
 export default function App() {
 	return (
