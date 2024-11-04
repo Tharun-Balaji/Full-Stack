@@ -85,6 +85,7 @@ const userSlice = createSlice({
 });
 
 // Export the actions and reducer for the user slice
+// These can be used in other parts of the application to interact with the user slice
 export const {
   singInStart,
   signInSuccess,
