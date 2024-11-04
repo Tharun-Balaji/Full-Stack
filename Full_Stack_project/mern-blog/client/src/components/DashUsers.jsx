@@ -50,8 +50,8 @@ export default function DashUsers() {
 		}
   };
   
-  const handleDeleteUser = async () => { 
-    
+  const handleDelete = async () => { 
+
   };
 
 
