@@ -7,6 +7,7 @@ import Footer from './Footer.jsx';
 import OAuth from './OAuth.jsx';
 import DashPosts from './DashPosts.jsx';
 import OnlyAdminPrivateRoute from './OnlyAdminPrivateRoute.jsx';
+import DashUsers from './DashUsers.jsx';
 
 export {
   ThemeProvider,
@@ -17,5 +18,6 @@ export {
   Footer,
   OAuth,
   DashPosts,
-  OnlyAdminPrivateRoute
+  OnlyAdminPrivateRoute,
+  DashUsers
 };
