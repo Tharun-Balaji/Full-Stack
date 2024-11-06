@@ -10,6 +10,7 @@ import OnlyAdminPrivateRoute from './OnlyAdminPrivateRoute.jsx';
 import DashUsers from './DashUsers.jsx';
 import CallToAction from './CallToAction.jsx';
 import CommentSection from './CommentSection.jsx';
+import ScrollToTop from './ScrollToTop.jsx';
 
 export {
   ThemeProvider,
@@ -23,5 +24,6 @@ export {
   OnlyAdminPrivateRoute,
   DashUsers,
   CallToAction,
-  CommentSection
+  CommentSection,
+  ScrollToTop
 };

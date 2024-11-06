@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Footer, Header, OnlyAdminPrivateRoute, PrivateRoute } from "./components";
+import { Footer, Header, OnlyAdminPrivateRoute, PrivateRoute, ScrollToTop } from "./components";
 import { About, CreatePost, DashBoard, Home, PostPage, Projects, SignIn, SignUp, UpdatePost } from "./pages";
 
 
 export default function App() {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<Header />
 			<Routes>
 				<Route path="/" element={<Home />} />
