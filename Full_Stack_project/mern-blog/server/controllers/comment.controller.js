@@ -1,5 +1,5 @@
-import { errorHandler } from '../utils/error';
-import Comment from '../models/comment.model';
+import { errorHandler } from '../utils/error.js';
+import Comment from '../models/comment.model.js';
 
 
 /**

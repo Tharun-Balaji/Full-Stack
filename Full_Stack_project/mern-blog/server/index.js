@@ -31,7 +31,7 @@ app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
 
 // Error Handling
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
   const statusCode = error.status || 500;
   const message = error.message || 'Something went wrong';
   return res.status(statusCode).json({
