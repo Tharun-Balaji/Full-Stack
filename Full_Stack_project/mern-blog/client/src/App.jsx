@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Footer, Header, OnlyAdminPrivateRoute, PrivateRoute } from "./components";
-import { About, CreatePost, DashBoard, Home, Projects, SignIn, SignUp, UpdatePost } from "./pages";
+import { About, CreatePost, DashBoard, Home, PostPage, Projects, SignIn, SignUp, UpdatePost } from "./pages";
 
 
 export default function App() {
@@ -23,6 +23,7 @@ export default function App() {
 					/>
 				</Route>
 				<Route path="/projects" element={<Projects />} />
+				<Route path="/post/:postSlug" element={<PostPage />} />
 			</Routes>
 			<Footer />
 		</BrowserRouter>
