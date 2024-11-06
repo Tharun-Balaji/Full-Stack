@@ -37,3 +37,23 @@ export const createComment = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * @description Get all comments for a post
+ * @param {string} req.params.postId - ObjectId of the post for which the comments are being retrieved
+ * @param {Object} res - Response object
+ * @param {Function} next - Next middleware function
+ */
+export const getPostComments = async (req, res, next) => {
+  try {
+    // Find all comments for a given post
+    const comments = await Comment.find({ postId: req.params.postId })
+      // Sort comments by createdAt time in descending order (newest first)
+      .sort({ createdAt: -1 });
+    // Return all comments for the post
+    res.status(200).json(comments);
+  } catch (error) {
+    // Handle any errors
+    next(error);
+  }
+};
