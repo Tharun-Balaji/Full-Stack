@@ -8,6 +8,7 @@ import OAuth from './OAuth.jsx';
 import DashPosts from './DashPosts.jsx';
 import OnlyAdminPrivateRoute from './OnlyAdminPrivateRoute.jsx';
 import DashUsers from './DashUsers.jsx';
+import CallToAction from './CallToAction.jsx';
 
 export {
   ThemeProvider,
@@ -19,5 +20,6 @@ export {
   OAuth,
   DashPosts,
   OnlyAdminPrivateRoute,
-  DashUsers
+  DashUsers,
+  CallToAction
 };
