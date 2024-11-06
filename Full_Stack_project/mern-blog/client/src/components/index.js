@@ -9,6 +9,7 @@ import DashPosts from './DashPosts.jsx';
 import OnlyAdminPrivateRoute from './OnlyAdminPrivateRoute.jsx';
 import DashUsers from './DashUsers.jsx';
 import CallToAction from './CallToAction.jsx';
+import CommentSection from './CommentSection.jsx';
 
 export {
   ThemeProvider,
@@ -21,5 +22,6 @@ export {
   DashPosts,
   OnlyAdminPrivateRoute,
   DashUsers,
-  CallToAction
+  CallToAction,
+  CommentSection
 };
