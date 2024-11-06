@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import { authRoute, postRoute, userRoute } from './routes/index.js';
+import { authRoute, commentRoute, postRoute, userRoute } from './routes/index.js';
 import cookieParser from 'cookie-parser';
 
 
@@ -28,6 +28,7 @@ app.use(morgan('dev'));
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
+app.use('/api/comment', commentRoute);
 
 // Error Handling
 app.use((error, req, res, next) => {
