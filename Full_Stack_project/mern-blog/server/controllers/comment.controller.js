@@ -57,3 +57,46 @@ export const getPostComments = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * @description Like or unlike a comment
+ * @param {string} req.params.commentId - ObjectId of the comment that is being liked or unliked
+ * @param {Object} res - Response object
+ * @param {Function} next - Next middleware function
+ */
+export const likeComment = async (req, res, next) => {
+  try {
+    // Find the comment by its ObjectId
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      // Return an error if the comment is not found
+      return next(errorHandler(404, 'Comment not found'));
+    }
+
+    // Check if the user has already liked the comment
+    const userIndex = comment.likes.indexOf(req.user.id);
+
+    // If the user has not liked the comment, like it
+    if (userIndex === -1) {
+      // Increment the number of likes
+      comment.numberOfLikes += 1;
+      // Add the user's ObjectId to the list of users who have liked the comment
+      comment.likes.push(req.user.id);
+    } else {
+      // If the user has liked the comment, unlike it
+      // Decrement the number of likes
+      comment.numberOfLikes -= 1;
+      // Remove the user's ObjectId from the list of users who have liked the comment
+      comment.likes.splice(userIndex, 1);
+    }
+
+    // Save the updated comment
+    await comment.save();
+
+    // Return the updated comment
+    res.status(200).json(comment);
+  } catch (error) {
+    // Handle any errors
+    next(error);
+  }
+};
