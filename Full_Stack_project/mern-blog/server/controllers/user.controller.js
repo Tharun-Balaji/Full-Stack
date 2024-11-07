@@ -154,6 +154,33 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
+/**
+ * @description Gets a user by id
+ * @param {string} req.params.userId - Id of the user to retrieve
+ * @param {Object} res - Response object
+ * @param {Function} next - Next middleware function
+ */
+export const getUser = async (req, res, next) => {
+  try {
+    // find user by id
+    const user = await userModel.findById(req.params.userId);
+
+    // if user is not found
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    // remove password from user object
+    const { password, ...rest } = user._doc;
+
+    // return user object without password
+    res.status(200).json(rest);
+  } catch (error) {
+    // handle any errors
+    next(error);
+  }
+};
+
 
 
 
