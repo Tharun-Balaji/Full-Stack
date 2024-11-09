@@ -12,6 +12,7 @@ import CallToAction from './CallToAction.jsx';
 import CommentSection from './CommentSection.jsx';
 import ScrollToTop from './ScrollToTop.jsx';
 import PostCard from './PostCard.jsx';
+import DashComments from './DashComments.jsx';
 
 export {
   ThemeProvider,
@@ -27,5 +28,6 @@ export {
   CallToAction,
   CommentSection,
   ScrollToTop,
-  PostCard
+  PostCard,
+  DashComments
 };
