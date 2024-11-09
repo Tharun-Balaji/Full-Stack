@@ -10,6 +10,8 @@ export default function Comment({ comment, onLike }) {
 
 	const { currentUser } = useSelector((state) => state.user);
 
+	const handleEdit = () => { };
+
   useEffect(() => {
 		const getUser = async () => {
 			try {
@@ -64,6 +66,18 @@ export default function Comment({ comment, onLike }) {
 									? "like"
 									: "likes")}
 					</p>
+					{currentUser &&
+                (currentUser._id === comment.userId || currentUser.isAdmin) && (
+                  <>
+                    <button
+                      type='button'
+                      onClick={handleEdit}
+                      className='text-gray-400 hover:text-blue-500'
+                    >
+                      Edit
+							</button>
+							</>
+						)}
 				</div>
 			</div>
 		</div>
