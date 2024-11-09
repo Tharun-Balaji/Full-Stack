@@ -13,6 +13,8 @@ import CommentSection from './CommentSection.jsx';
 import ScrollToTop from './ScrollToTop.jsx';
 import PostCard from './PostCard.jsx';
 import DashComments from './DashComments.jsx';
+import DashboardComp from './DashboardComp.jsx';
+
 
 export {
   ThemeProvider,
@@ -29,5 +31,6 @@ export {
   CommentSection,
   ScrollToTop,
   PostCard,
-  DashComments
+  DashComments,
+  DashboardComp
 };
