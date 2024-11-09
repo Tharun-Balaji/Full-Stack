@@ -141,6 +141,12 @@ export default function Comment({ comment, onLike, onEdit }) {
 										>
 											Edit
 										</button>
+										<button
+											type="button"
+											className="text-gray-400 hover:text-red-500"
+										>
+											Delete
+										</button>
 									</>
 								)}
 						</div>
