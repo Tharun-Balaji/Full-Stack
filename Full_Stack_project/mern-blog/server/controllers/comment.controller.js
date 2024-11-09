@@ -144,7 +144,7 @@ export const deleteComment = async (req, res, next) => {
     
     // If the comment is not found, return a 404 error
     if (!comment) {
-      return next(errorHandler(404, 'Comment not found'));
+      return next(errorHandler(404, 'Comment not found')); 
     }
     
     // Check if the user is the owner of the comment or an admin

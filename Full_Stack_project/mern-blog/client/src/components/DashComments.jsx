@@ -64,23 +64,23 @@ export default function DashComments() {
 		}
    };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async () => {
     // Hide the modal
     setShowModal(false);
     try {
       // Send a DELETE request to the server to delete the comment
       const res = await fetch(
-        `/api/comment/deleteComment/${commentId}`,
-        {
-          method: "DELETE",
-        }
-      );
+			`/api/comment/deleteComment/${commentIdToDelete}`,
+			{
+				method: "DELETE",
+			}
+		);
       const data = await res.json();
       if (res.ok) {
         // Update the state by filtering out the deleted comment
         setComments((prev) =>
-          prev.filter((comment) => comment._id !== commentId)
-        );
+			prev.filter((comment) => comment._id !== commentIdToDelete)
+		);
       } else {
         // Log an error message if the request was not successful
         console.log(data.message);
