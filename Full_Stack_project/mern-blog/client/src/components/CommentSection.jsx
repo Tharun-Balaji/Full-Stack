@@ -11,6 +11,7 @@ export default function CommentSection({ postId }) {
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
 	const [comments, setComments] = useState([]);
+	  const [showModal, setShowModal] = useState(false);
 	
 	  const navigate = useNavigate();
 
@@ -107,7 +108,43 @@ export default function CommentSection({ postId }) {
                     : c // Otherwise, return the comment unchanged
             )
         );
-    };
+	};
+	
+
+	 /**
+	 * Handles deleting a comment.
+	 * 
+	 * If the user is not signed in, it redirects them to the sign-in page.
+	 * If the request is successful, it updates the comments state by removing the deleted comment.
+	 * @param {string} commentId - ObjectId of the comment to be deleted
+	 */
+	 const handleDelete = async (commentId) => {
+			setShowModal(false);
+			try {
+				if (!currentUser) {
+					// Redirect to the sign-in page if the user is not signed in
+					navigate("/sign-in");
+					return;
+				}
+				// Send a DELETE request to the server to delete the comment
+				const res = await fetch(
+					`/api/comment/deleteComment/${commentId}`,
+					{
+						method: "DELETE",
+					}
+				);
+				if (res.ok) {
+					// Remove the comment from the comments state
+					const data = await res.json();
+					setComments(
+						comments.filter((comment) => comment._id !== commentId)
+					);
+				}
+			} catch (error) {
+				// Log any errors to the console
+				console.log(error.message);
+			}
+		};
 
   return (
 		<div className="max-w-2xl mx-auto w-full p-3">
