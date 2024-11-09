@@ -166,3 +166,42 @@ export const deleteComment = async (req, res, next) => {
   }
 };
 
+/**
+ * @description Get all comments. This endpoint is only accessible to admins.
+ * @param {Number} req.query.startIndex - The index to start retrieving comments from
+ * @param {Number} req.query.limit - The number of comments to return
+ * @param {String} req.query.sort - The sort order of the comments. Can be either 'asc' or 'desc'
+ * @returns {Object} - An object with the comments, the total number of comments, and the number of comments created in the last month
+ */
+export const getcomments = async (req, res, next) => {
+  if (!req.user.isAdmin)
+    return next(errorHandler(403, 'You are not allowed to get all comments'));
+  try {
+    // Get the start index and limit from the query
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    // Get the sort order from the query. If it's not provided, sort in descending order
+    const sortDirection = req.query.sort === 'desc' ? -1 : 1;
+    // Find all comments, sort them by createdAt in the specified order, skip the specified number of comments, and limit the results to the specified limit
+    const comments = await Comment.find()
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+    // Count the total number of comments
+    const totalComments = await Comment.countDocuments();
+    // Count the number of comments created in the last month
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthComments = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    // Return the comments, total number of comments, and number of comments created in the last month
+    res.status(200).json({ comments, totalComments, lastMonthComments });
+  } catch (error) {
+    next(error);
+  }
+};
