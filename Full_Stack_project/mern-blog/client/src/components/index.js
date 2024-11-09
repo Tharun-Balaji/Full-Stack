@@ -11,6 +11,7 @@ import DashUsers from './DashUsers.jsx';
 import CallToAction from './CallToAction.jsx';
 import CommentSection from './CommentSection.jsx';
 import ScrollToTop from './ScrollToTop.jsx';
+import PostCard from './PostCard.jsx';
 
 export {
   ThemeProvider,
@@ -25,5 +26,6 @@ export {
   DashUsers,
   CallToAction,
   CommentSection,
-  ScrollToTop
+  ScrollToTop,
+  PostCard
 };
