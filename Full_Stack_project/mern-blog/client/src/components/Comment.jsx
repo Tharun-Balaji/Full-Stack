@@ -6,7 +6,7 @@ import { Button, Textarea } from "flowbite-react";
 import { set } from "mongoose";
 
 
-export default function Comment({ comment, onLike }) {
+export default function Comment({ comment, onLike, onEdit }) {
 
 	const [user, setUser] = useState({});
 	const [isEditing, setIsEditing] = useState(false);

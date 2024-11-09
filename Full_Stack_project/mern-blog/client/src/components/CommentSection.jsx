@@ -97,6 +97,18 @@ export default function CommentSection({ postId }) {
 		}
 	};
 
+	      const handleEdit = async (comment, editedContent) => {
+        // Update the comments state with the edited content for the specified comment
+        setComments(
+            comments.map((c) =>
+                // Check if the current comment matches the edited comment
+                c._id === comment._id 
+                    ? { ...c, content: editedContent } // If it matches, update the content
+                    : c // Otherwise, return the comment unchanged
+            )
+        );
+    };
+
   return (
 		<div className="max-w-2xl mx-auto w-full p-3">
 			{currentUser ? (
@@ -171,6 +183,7 @@ export default function CommentSection({ postId }) {
 							key={comment._id}
 							comment={comment}
 							onLike={handleLike}
+							onEdit={handleEdit}
 						/>
 					))}
 				</>
