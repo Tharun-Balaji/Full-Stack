@@ -6,7 +6,7 @@ import { Button, Textarea } from "flowbite-react";
 import { set } from "mongoose";
 
 
-export default function Comment({ comment, onLike, onEdit }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
 
 	const [user, setUser] = useState({});
 	const [isEditing, setIsEditing] = useState(false);
@@ -144,6 +144,9 @@ export default function Comment({ comment, onLike, onEdit }) {
 										<button
 											type="button"
 											className="text-gray-400 hover:text-red-500"
+											onClick={() =>
+												onDelete(comment._id)
+											}
 										>
 											Delete
 										</button>

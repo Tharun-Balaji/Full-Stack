@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Alert, Button, Textarea } from "flowbite-react";
+import { Alert, Button, Modal, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import Comment from "./Comment";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 
 
 export default function CommentSection({ postId }) {
@@ -222,6 +224,10 @@ export default function CommentSection({ postId }) {
 							comment={comment}
 							onLike={handleLike}
 							onEdit={handleEdit}
+							onDelete={(commentId) => {
+								setShowModal(true);
+								setCommentToDelete(commentId);
+							}}
 						/>
 					))}
 				</>
