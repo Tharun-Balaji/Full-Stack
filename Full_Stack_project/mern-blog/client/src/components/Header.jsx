@@ -5,14 +5,29 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signOutStart, signOutSuccess } from "../redux/user/userSlice";
+import { useEffect, useState } from "react";
 
 export default function Header() {
 
 	const path = useLocation().pathname;
+	const location = useLocation();
 	const { currentUser } = useSelector((state) => state.user);
 	const{theme} = useSelector((state) => state.theme);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	  const [searchTerm, setSearchTerm] = useState("");
+
+
+	  // When the user navigates to a new URL, check if the new URL includes a search term
+	  // If it does, set the search term to the value in the URL
+	  useEffect(() => {
+			const urlParams = new URLSearchParams(location.search);
+			const searchTermFromUrl = urlParams.get("searchTerm");
+			if (searchTermFromUrl) {
+				// If the URL includes a search term, set the search term to that value
+				setSearchTerm(searchTermFromUrl);
+			}
+		}, [location.search]);
 
 		const handleSignOut = async () => {
 			dispatch(signOutStart());
@@ -33,8 +48,23 @@ export default function Header() {
 			} catch (error) {
 				console.log(error.message);
 			}
-		};
-
+	};
+	
+	/**
+	 * When the user submits the search form, this function is called.
+	 * It takes the current search term and adds it to the URL as a query
+	 * parameter, and then navigates to the new URL.
+	 * @param {Event} e - The event object from the form submission
+	 */
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const urlParams = new URLSearchParams(location.search);
+		urlParams.set("searchTerm", searchTerm);
+		const searchQuery = urlParams.toString();
+		// Navigate to the new URL with the search term as a query parameter
+		navigate(`/search?${searchQuery}`);
+	};
+	
   return (
 		<Navbar className="border-b-2">
 			<Link
