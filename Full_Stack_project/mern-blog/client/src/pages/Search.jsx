@@ -69,7 +69,15 @@ export default function Search() {
 	}, [location.search]);
 	
 
-	const handleSubmit = (e) => { };
+	const handleSubmit = (e) => {
+		e.preventDefault(); // Prevent the default form submission behavior
+		const urlParams = new URLSearchParams(location.search); // Get the current URL parameters
+		urlParams.set("searchTerm", sidebarData.searchTerm); // Set the search term in the query parameters
+		urlParams.set("sort", sidebarData.sort); // Set the sort order in the query parameters
+		urlParams.set("category", sidebarData.category); // Set the category in the query parameters
+		const searchQuery = urlParams.toString(); // Convert the URL parameters to a query string
+		navigate(`/search?${searchQuery}`); // Navigate to the new URL with the updated query parameters
+	};
 
 	const handleChange = (e) => { };
 
