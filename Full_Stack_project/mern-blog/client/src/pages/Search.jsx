@@ -79,8 +79,27 @@ export default function Search() {
 		navigate(`/search?${searchQuery}`); // Navigate to the new URL with the updated query parameters
 	};
 
-	const handleChange = (e) => { };
-
+	const handleChange = (e) => {
+		// Check if the changed element is the search term input
+		if (e.target.id === "searchTerm") {
+			// Update the searchTerm in the sidebar data
+			setSidebarData({ ...sidebarData, searchTerm: e.target.value });
+		}
+		// Check if the changed element is the sort dropdown
+		if (e.target.id === "sort") {
+			// Default to "desc" if no value is selected
+			const order = e.target.value || "desc";
+			// Update the sort order in the sidebar data
+			setSidebarData({ ...sidebarData, sort: order });
+		}
+		// Check if the changed element is the category dropdown
+		if (e.target.id === "category") {
+			// Default to "uncategorized" if no value is selected
+			const category = e.target.value || "uncategorized";
+			// Update the category in the sidebar data
+			setSidebarData({ ...sidebarData, category });
+		}
+	};
 
 
 	return (
