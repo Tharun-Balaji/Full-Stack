@@ -138,34 +138,35 @@ bookmyshow-clone/
 ### User Schema
 ```javascript
 {
-  name: String,
-  email: String,
-  password: String,
-  role: String,
-  bookings: [BookingSchema]
+  name:String,
+  email:String,
+  isAdmin:Boolean,
+  password : String
 }
 ```
 
 ### Theater Schema
 ```javascript
 {
-  name: String,
-  location: String,
-  screens: Number,
-  shows: [ShowSchema],
-  approved: Boolean
+  name:String,
+  email: String,
+  address: String,
+  phone: Number,
+  isActive: Boolean,
+  owner: UserSchema
 }
 ```
 
 ### Movie Schema
 ```javascript
 {
-  title: String,
-  description: String,
-  duration: Number,
-  genre: [String],
-  language: String,
+  title:String,
+  description:String,
+  genre: String,
+  language:String,
+  poster: String,
   releaseDate: Date
+  duration:Number
 }
 ```
 
