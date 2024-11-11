@@ -207,7 +207,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contact
 
-Your Name - [tharunbalaji110@gmail.com](mailto:tharunbalaji110@gmail.com)
+Email - [tharunbalaji110@gmail.com](mailto:tharunbalaji110@gmail.com)
 
 Project Link: [https://github.com/tharunbalaji110/bookmyshow-clone](https://bms-deploy.onrender.com/)
 
