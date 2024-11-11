@@ -172,7 +172,18 @@ bookmyshow-clone/
 
 ## Screenshots
 
-[Add screenshots of your application here]
+[![Login Page](image.png)]
+![Sign-up Page](image-1.png)
+![Home Page](image-2.png)
+![Admin Dashboard](image-3.png)
+![Admin Theater Details](image-4.png)
+![avaliable shows](image-5.png)
+![available seats](image-6.png)
+![Book a ticket](image-7.png)
+![making payment](image-8.png)
+![adding card](image-9.png)
+![booked tickets](image-10.png)
+![Adding theater](image-11.png)
 
 ## Future Enhancements
 - Mobile responsive design
@@ -196,9 +207,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contact
 
-Your Name - [your@email.com](mailto:your@email.com)
+Your Name - [tharunbalaji110@gmail.com](mailto:tharunbalaji110@gmail.com)
 
-Project Link: [https://github.com/yourusername/bookmyshow-clone](https://github.com/yourusername/bookmyshow-clone)
+Project Link: [https://github.com/tharunbalaji110/bookmyshow-clone](https://bms-deploy.onrender.com/)
 
 ## Acknowledgments
 - Inspired by BookMyShow
