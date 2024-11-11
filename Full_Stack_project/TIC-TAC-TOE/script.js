@@ -87,3 +87,17 @@ socket.on("find", (e) => {
 
 });
 
+
+// Add an event listener to each of the buttons representing the cells of the tic-tac-toe board
+document.querySelectorAll(".btn").forEach(e => {
+  e.addEventListener("click", function () {
+    // Get the value of the current player (X or O)
+    let value = document.getElementById("value").innerText
+    // Set the text of the button to the value of the current player
+    e.innerText = value
+
+    // Send the value, id of the button, and name of the current player to the server
+    socket.emit("playing", { value: value, id: e.id, name: name });
+
+  })
+});
