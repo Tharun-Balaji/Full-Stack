@@ -76,12 +76,14 @@ export default function Header() {
 				</span>
 				Blog
 			</Link>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<TextInput
 					type="text"
 					placeholder="Search"
 					rightIcon={AiOutlineSearch}
 					className="hidden lg:inline"
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
 				/>
 			</form>
 			<Button className="w-12 h-10 lg:hidden" color="gray" pill>
@@ -120,7 +122,9 @@ export default function Header() {
 							<Dropdown.Item>Profile</Dropdown.Item>
 						</Link>
 						<Dropdown.Divider />
-						<Dropdown.Item onClick={handleSignOut} >Sign out</Dropdown.Item>
+						<Dropdown.Item onClick={handleSignOut}>
+							Sign out
+						</Dropdown.Item>
 					</Dropdown>
 				) : (
 					<Link to="/sign-in">
