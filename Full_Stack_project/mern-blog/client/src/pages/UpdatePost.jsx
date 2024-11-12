@@ -183,6 +183,18 @@ export default function UpdatePost() {
 						className="w-full h-72 object-cover"
 					/>
 				)}
+				{/* ReactQuill is a rich text editor that uses the Quill editor.
+				 * We use it here to allow the user to write a post with
+				 * formatting options. The theme is set to snow, which has a
+				 * light background and is the default theme for the editor.
+				 * The value is set to the content of the post, and the placeholder
+				 * is set to "Write something...". The className is set to h-72
+				 * which means the editor will take up 72px of height, and the
+				 * mb-12 class adds a margin of 12px to the bottom of the editor.
+				 * The required attribute is set to true, which means the user
+				 * cannot submit the form without writing something in the editor.
+				 * The onChange event is used to update the content of the post
+				 * when the user types something in the editor. */}
 				<ReactQuill
 					theme="snow"
 					value={formData.content}
@@ -190,6 +202,8 @@ export default function UpdatePost() {
 					className="h-72 mb-12"
 					required
 					onChange={(value) => {
+						// Update the content of the post when the user types
+						// something in the editor.
 						setFormData({ ...formData, content: value });
 					}}
 				/>

@@ -171,10 +171,11 @@ export default function CreatePost() {
 					/>
 				)}
 				<ReactQuill
-					theme="snow"
-					className="h-72 mb-[4rem] sm:mb-12"
-					required
+					theme="snow" // Applying the 'snow' theme for a clean editor interface
+					className="h-72 mb-[4rem] sm:mb-12" // Setting height and responsive bottom margin
+					required // Making the editor input mandatory
 					onChange={(value) => {
+						// Update formData with the content from the editor
 						setFormData({ ...formData, content: value });
 					}}
 				/>
