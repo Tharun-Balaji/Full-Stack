@@ -14,6 +14,7 @@ import ScrollToTop from './ScrollToTop.jsx';
 import PostCard from './PostCard.jsx';
 import DashComments from './DashComments.jsx';
 import DashboardComp from './DashboardComp.jsx';
+import ProjectCard from './ProjectCard.jsx';
 
 
 export {
@@ -32,5 +33,6 @@ export {
   ScrollToTop,
   PostCard,
   DashComments,
-  DashboardComp
+  DashboardComp,
+  ProjectCard
 };
