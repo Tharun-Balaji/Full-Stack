@@ -35,6 +35,12 @@ app.use('/api/comment', commentRoute);
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
 
+// Handle client-side routing by sending the index.html file for any route that's not an API route
+app.get('*', (req, res) => {
+  // Send the index.html file from the client/dist folder
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
 // Error Handling
 app.use((error, req, res) => {
   const statusCode = error.status || 500;
@@ -45,6 +51,8 @@ app.use((error, req, res) => {
     message
   });
 });
+
+
 
 app.listen(PORT, () => {
   console.log('Listening on %i...', PORT);
