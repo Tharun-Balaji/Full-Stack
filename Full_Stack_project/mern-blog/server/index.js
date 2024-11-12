@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { authRoute, commentRoute, postRoute, userRoute } from './routes/index.js';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 
 
@@ -14,7 +15,9 @@ mongoose.connect(process.env.MONGO).then(() => {
   console.log('Connected to MongoDB');
 }).catch((err) => {
   console.log(err);
-})
+});
+
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -29,6 +32,8 @@ app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
 app.use('/api/comment', commentRoute);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 // Error Handling
 app.use((error, req, res) => {
