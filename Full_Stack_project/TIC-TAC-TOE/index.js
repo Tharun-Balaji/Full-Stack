@@ -1,120 +1,113 @@
-// Import the necessary modules
-const express = require('express');
-const app = express(); // Create an Express application
+// Import Express.js to create a simple web server
+const express = require("express")
+const app = express()
 
-const path = require('path'); // Module to work with file and directory paths
-const http = require('http'); // Module to create an HTTP server
-const { Server } = require('socket.io'); // Import Server class from socket.io
+// Import the path module to easily resolve file paths
+const path = require("path")
 
-// Create an HTTP server using the Express app
-const server = http.createServer(app);
+// Import the built-in HTTP module to create an HTTP server
+const http = require("http")
 
-// Initialize a new instance of socket.io by passing the server object
-const io = new Server(server);
+// Import the Socket.IO module to create a Socket.IO server
+// which will handle real-time communication with clients
+const { Server } = require("socket.io")
 
-// Serve static files from the directory specified
-app.use(express.static(path.resolve('')));
+// Create an HTTP server and wrap the express app
+const server = http.createServer(app)
 
-const arr = []; // Array to store the names of players that are waiting to play
-const playingArray = []; // Array to store the objects of the players that are currently playing
+// Create a new Socket.IO server and attach it to the HTTP server
+const io = new Server(server)
 
-io.on('connection', (socket) => {
+// Serve static files from the root directory
+app.use(express.static(path.resolve("")))
 
-  // Listen for the "find" event, which is emitted when a player wants to find another player
-  socket.on('find', (e) => { 
+// Arrays to hold player names and game sessions
+let arr = []
+let playingArray = []
 
-    // Check if the player has a valid name
-    if (e.name != null) {
-      arr.push(e.name) // Add the name to the array
+// Listen for new connections from clients
+io.on("connection", (socket) => {
 
-      // If there are at least two players waiting to play, create a game object
+  // Listen for 'find' event when a user searches for a player
+  // Listen for 'find' event when a user searches for a player
+  socket.on("find", (e) => {
+    if (e.name != null) { // Ensure the name is not null
+      arr.push(e.name) // Add the user's name to the array
+
+      // If there are at least two players, create a new game session
       if (arr.length >= 2) {
-        const p1obj = {
-          p1name: arr[0], // Store the name of the first player
-          p1value: "X", // Store the symbol of the first player
-          p1move: "" // Store the move of the first player
+        // Create objects for the two players in the game session
+        let p1obj = {
+          p1name: arr[0], // Name of the first player
+          p1value: "X", // The first player is X
+          p1move: "" // Initialize the player's move to an empty string
         }
-        const p2obj = {
-          p2name: arr[1], // Store the name of the second player
-          p2value: "O", // Store the symbol of the second player
-          p2move: "" // Store the move of the second player
+        let p2obj = {
+          p2name: arr[1], // Name of the second player
+          p2value: "O", // The second player is O
+          p2move: "" // Initialize the player's move to an empty string
         }
 
-        // Create a game object that contains the information of the two players
-        const obj = {
-          p1: p1obj,
-          p2: p2obj,
-          sum: 1 // Store the sum of the moves made by the two players
+        // Create a new game session object
+        let obj = {
+          p1: p1obj, // Add the first player's object to the session
+          p2: p2obj, // Add the second player's object to the session
+          sum: 1 // Initialize the sum to track moves
         }
-        playingArray.push(obj) // Add the game object to the array
 
-        // Remove the names of the two players from the array
+        // Add the new game session to the array of all game sessions
+        playingArray.push(obj)
+
+        // Remove the paired players from the waiting list
         arr.splice(0, 2)
 
-        // Emit the "find" event to all connected clients with the updated array of games
+        // Emit the updated list of all game sessions to all clients
         io.emit("find", { allPlayers: playingArray })
       }
-     }
-
+    }
   })
 
-  // Listen for the "playing" event, which is emitted when a player makes a move
+
+  // Listen for 'playing' event when a player makes a move
   socket.on("playing", (e) => {
-
-    // Check if the player is playing as X
+    // Check if the player is 'X'
     if (e.value == "X") {
-
-      // Find the object in playingArray that contains the player's name
+      // Find the game session object for the player making the move
       let objToChange = playingArray.find(obj => obj.p1.p1name === e.name)
-
-      // Update the move of the player
+      // Update the move ID for player 'X'
       objToChange.p1.p1move = e.id
-
-      // Increment the sum of moves made by the two players in the game
+      // Increment the move count
       objToChange.sum++
     }
-    // Check if the player is playing as O
+    // Check if the player is 'O'
     else if (e.value == "O") {
-
-      // Find the object in playingArray that contains the player's name
+      // Find the game session object for the player making the move
       let objToChange = playingArray.find(obj => obj.p2.p2name === e.name)
-
-      // Update the move of the player
+      // Update the move ID for player 'O'
       objToChange.p2.p2move = e.id
-
-      // Increment the sum of moves made by the two players in the game
+      // Increment the move count
       objToChange.sum++
     }
 
-    // Emit the "playing" event to all connected clients with the updated array of games
-    io.emit("playing", { allPlayers: playingArray });
+    // Emit the updated list of all game sessions to all clients
+    io.emit("playing", { allPlayers: playingArray })
+  })
 
-  });
-
-  // Listen for the "gameOver" event, which is emitted when a game ends
+  // Listen for 'gameOver' event when a game ends
   socket.on("gameOver", (e) => {
-    // Remove the game object from playingArray where the player's name matches
-    playingArray = playingArray.filter(obj => obj.p1.p1name !== e.name);
-    
-    // Log the updated array of games
-    console.log(playingArray);
-    
-    // Log a message for debugging purposes
-    console.log("lol");
-  });
-
-
+    // Remove the game session for the player whose game is over
+    playingArray = playingArray.filter(obj => obj.p1.p1name !== e.name)
+    console.log(playingArray) // Log the updated game sessions for debugging
+  })
 })
 
-// Define a route handler for the default home page
-app.get('/', (req, res) => {
-  return res.sendFile('index.html'); // Send 'index.html' file as a response
-});
+// Serve the main HTML file for the root route
+app.get("/", (req, res) => {
+  return res.sendFile("index.html")
+})
 
-// Set the port from environment variables or default to 3000
-const PORT = process.env.PORT || 3000;
-
-// Start the server and listen on the specified port
-server.listen(PORT, () => { 
-  console.log('Server is running on port %i', PORT); // Log a message when the server is running
-});
+// Start the HTTP server on the specified port
+const PORT = process.env.PORT || 3000
+server.listen(PORT, () => {
+  console.log("port connected to %i...", PORT)
+})
