@@ -58,6 +58,39 @@ io.on('connection', (socket) => {
 
   })
 
+  // Listen for the "playing" event, which is emitted when a player makes a move
+  socket.on("playing", (e) => {
+
+    // Check if the player is playing as X
+    if (e.value == "X") {
+
+      // Find the object in playingArray that contains the player's name
+      let objToChange = playingArray.find(obj => obj.p1.p1name === e.name)
+
+      // Update the move of the player
+      objToChange.p1.p1move = e.id
+
+      // Increment the sum of moves made by the two players in the game
+      objToChange.sum++
+    }
+    // Check if the player is playing as O
+    else if (e.value == "O") {
+
+      // Find the object in playingArray that contains the player's name
+      let objToChange = playingArray.find(obj => obj.p2.p2name === e.name)
+
+      // Update the move of the player
+      objToChange.p2.p2move = e.id
+
+      // Increment the sum of moves made by the two players in the game
+      objToChange.sum++
+    }
+
+    // Emit the "playing" event to all connected clients with the updated array of games
+    io.emit("playing", { allPlayers: playingArray });
+
+  });
+
 
 })
 
