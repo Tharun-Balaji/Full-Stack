@@ -91,6 +91,18 @@ io.on('connection', (socket) => {
 
   });
 
+  // Listen for the "gameOver" event, which is emitted when a game ends
+  socket.on("gameOver", (e) => {
+    // Remove the game object from playingArray where the player's name matches
+    playingArray = playingArray.filter(obj => obj.p1.p1name !== e.name);
+    
+    // Log the updated array of games
+    console.log(playingArray);
+    
+    // Log a message for debugging purposes
+    console.log("lol");
+  });
+
 
 })
 
