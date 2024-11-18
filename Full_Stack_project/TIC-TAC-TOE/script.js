@@ -101,3 +101,40 @@ document.querySelectorAll(".btn").forEach(e => {
 
   })
 });
+
+
+socket.on("playing", (e) => { 
+
+  // Find the object in the array that contains the name of the current player
+  const foundObject = (e.allPlayers).find(obj => obj.p1.p1name == `${name}` || obj.p2.p2name == `${name}`);
+
+  // Get the id of the cell where the first player made their move
+  p1id = foundObject.p1.p1move
+  // Get the id of the cell where the second player made their move
+  p2id = foundObject.p2.p2move
+
+  // Determine whose turn it is based on the number of moves made
+  if ((foundObject.sum) % 2 == 0) {
+    // If the number of moves made is even, it's the second player's turn
+    document.getElementById("whosTurn").innerText = "O's Turn"
+  }
+  else {
+    // If the number of moves made is odd, it's the first player's turn
+    document.getElementById("whosTurn").innerText = "X's Turn"
+  }
+
+  // Display the moves made by the players
+  if (p1id != '') {
+    document.getElementById(`${p1id}`).innerText = "X"
+    document.getElementById(`${p1id}`).disabled = true
+    document.getElementById(`${p1id}`).style.color = "black"
+  }
+  if (p2id != '') {
+    document.getElementById(`${p2id}`).innerText = "O"
+    document.getElementById(`${p2id}`).disabled = true
+    document.getElementById(`${p2id}`).style.color = "black"
+  }
+
+
+});
+
