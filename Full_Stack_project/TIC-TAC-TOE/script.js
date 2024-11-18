@@ -11,7 +11,6 @@ const socket = io();
 let name;
 
 // When the user clicks the "search for a player" button, get the name they entered and send it to the server
-// When the user clicks the "search for a player" button, get the name they entered and send it to the server
 document.getElementById('find').addEventListener("click", function () {
   // Get the name the user entered
   name = document.getElementById("name").value
@@ -29,7 +28,6 @@ document.getElementById('find').addEventListener("click", function () {
     // Show the loading animation and disable the search button
     document.getElementById("loading").style.display = "block"
     document.getElementById("find").disabled = true;
-
   }
 })
 
@@ -67,7 +65,20 @@ socket.on("find", (e) => {
   // Update the DOM with the opponent's name and the player's value
   document.getElementById("oppName").innerText = oppName;
   document.getElementById("value").innerText = value;
+
+  // Disable buttons initially
+  disableButtonsBasedOnTurn(foundObject.sum, value);
 });
+
+// Function to disable buttons based on whose turn it is
+function disableButtonsBasedOnTurn(sum, playerValue) {
+  const currentTurn = (sum % 2 == 0) ? 'X' : 'O';
+
+  // Disable all buttons if it IS the current player's turn
+  document.querySelectorAll(".btn").forEach(btn => {
+    btn.disabled = (currentTurn === playerValue);
+  });
+}
 
 // When the user clicks a button on the game board, send the move to the server
 // Add event listeners to each button on the game board
@@ -83,7 +94,6 @@ document.querySelectorAll(".btn").forEach(e => {
   });
 });
 
-// When the server sends a move, update the game board and show whose turn it is
 // When the server sends a move, update the game board and show whose turn it is
 socket.on("playing", (e) => {
   // Find the current game object
@@ -119,9 +129,12 @@ socket.on("playing", (e) => {
     document.getElementById(`${p2id}`).style.color = "black"
   }
 
+  // Disable buttons based on whose turn it is
+  const playerValue = document.getElementById("value").innerText;
+  disableButtonsBasedOnTurn(foundObject.sum, playerValue);
+
   // Check if the game is over
   check(name, foundObject.sum);
-
 })
 
 // Function to check if the game is over
@@ -171,5 +184,5 @@ function check(name, sum) {
 
     }, 100)
   }
-}
 
+}
