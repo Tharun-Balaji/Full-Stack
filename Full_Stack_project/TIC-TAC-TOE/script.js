@@ -135,6 +135,52 @@ socket.on("playing", (e) => {
     document.getElementById(`${p2id}`).style.color = "black"
   }
 
+  check(name, foundObject.sum);
 
 });
+
+function check(name, sum) {
+
+  // Initialize variables for each button's text, default to unique letters if empty
+  let b1 = document.getElementById("btn1").innerText || "a";
+  let b2 = document.getElementById("btn2").innerText || "b";
+  let b3 = document.getElementById("btn3").innerText || "c";
+  let b4 = document.getElementById("btn4").innerText || "d";
+  let b5 = document.getElementById("btn5").innerText || "e";
+  let b6 = document.getElementById("btn6").innerText || "f";
+  let b7 = document.getElementById("btn7").innerText || "g";
+  let b8 = document.getElementById("btn8").innerText || "h";
+  let b9 = document.getElementById("btn9").innerText || "i";
+
+  // Check all possible winning combinations
+  if (
+    (b1 === b2 && b2 === b3) || (b4 === b5 && b5 === b6) || (b7 === b8 && b8 === b9) || 
+    (b1 === b4 && b4 === b7) || (b2 === b5 && b5 === b8) || (b3 === b6 && b6 === b9) || 
+    (b1 === b5 && b5 === b9) || (b3 === b5 && b5 === b7)
+  ) {
+    // Emit 'gameOver' event to server with player's name
+    socket.emit("gameOver", { name: name });
+
+    // Alert the winner and reload the page after a delay
+    setTimeout(() => {
+      sum % 2 === 0 ? alert("X WON !!") : alert("O WON !!");
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    }, 100);
+  } 
+  // Check for a draw condition
+  else if (sum === 10) {
+    // Emit 'gameOver' event to server with player's name
+    socket.emit("gameOver", { name: name });
+
+    // Alert draw and reload the page after a delay
+    setTimeout(() => {
+      alert("DRAW!!");
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    }, 100);
+  }
+}
 
