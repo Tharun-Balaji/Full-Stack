@@ -7,13 +7,14 @@ import PasswordReset from "../models/PasswordReset.js";
 
 dotenv.config();
 
-const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
+const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL, AUTH_APP_PASSWORD } = process.env;
 
 let transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
+  service: 'gmail',
+  host: 'smtp.gmail.com',
   auth: {
     user: AUTH_EMAIL,
-    pass: AUTH_PASSWORD,
+    pass: AUTH_APP_PASSWORD,
   },
 });
 

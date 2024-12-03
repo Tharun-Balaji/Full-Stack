@@ -22,6 +22,7 @@ const app = express();
 app.use(requestTimer);
 
 app.use(express.static(path.join(__dirname, "views/build")));
+console.log(process.cwd());
 
 const PORT = process.env.PORT || 8800;
 
