@@ -1,97 +1,186 @@
+# File Organizer
 
+This command-line tool built with Node.js helps you declutter your directories by automatically sorting files based on their file types.
 
-**File Organizer**
+## Table of Contents
 
-This command-line tool built with Node.js helps you declutter your directories by automatically sorting files based on their file types. It supports commonly used media, archives, documents, and application formats.
+- [Installation](#installation)
+- [Usage](#usage)
+- [Commands](#commands)
+- [Command Details](#command-details)
+- [Code Structure](#code-structure)
+- [Comments and Functionality](#comments-and-functionality)
 
-**Table of Contents**
+## Commands Overview
 
-- Installation: #installation
-- Usage: #usage
-- Supported File Types: #supported-file-types
-- Commands: #commands
-- Example Commands: #example-commands
+The File Organizer provides three primary commands:
 
-**Installation**
+1. **`tree`**: Visualize directory structure
+2. **`organize`**: Automatically sort files into categorized folders
+3. **`help`**: Display command usage instructions
 
-1. **Prerequisites:** Ensure you have Node.js and npm (Node Package Manager) installed on your system. You can download them from the official Node.js website ([https://nodejs.org/en](https://nodejs.org/en)).
-2. **Clone or Download the Source Code:**
-   - If you have Git installed, clone the repository using `git clone <repository_url>`. Replace `<repository_url>` with the actual URL.
-   - Otherwise, download the source code as a ZIP or tarball file and extract it to a convenient location on your system.
+## Command Details
 
-**Usage**
+### 1. Tree Command (`node main.js tree <directoryPath>`)
 
-1. **Navigate to Project Directory:** Open your terminal or command prompt and use the `cd` command to navigate to the directory containing the `main.js` file (the core script of your File Organizer tool).
-2. **Run the Tool:** Execute commands using the following syntax:
+**Functionality:**
+- Displays a hierarchical tree-like representation of the directory
+- Shows files and subdirectories in a nested format
+- Uses indentation to represent directory levels
 
-   ```bash
-   node main.js <command> <directoryPath>
-   ```
+**Example:**
+```
+└──Downloads
+    ├──Documents
+        ├──report.pdf
+        ├──spreadsheet.xlsx
+    ├──Images
+        ├──photo1.jpg
+        ├──screenshot.png
+```
 
-   - Replace `<command>` with one of the available commands (see Commands: #commands section).
-   - Replace `<directoryPath>` with the absolute or relative path to the directory you want to organize.
+### 2. Organize Command (`node main.js organize <directoryPath>`)
 
-**Supported File Types**
+**Functionality:**
+- Automatically categorizes files based on their file extensions
+- Creates an `Organized_Files` directory in the specified path
+- Moves files into category-specific subdirectories:
+  - `media/`
+  - `archives/`
+  - `documents/`
+  - `app/`
 
-The tool currently recognizes and categorizes files into the following types:
+**Example:**
+```
+Downloads/
+└──Organized_Files/
+    ├──media/
+        ├──photo1.jpg
+        ├──video.mp4
+    ├──documents/
+        ├──report.pdf
+        ├──spreadsheet.xlsx
+```
 
-- **Media**: `mp4`, `mkv`, `jpg`, `jpeg`, `png`, `gif` (added GIF support)
-- **Archives**: `zip`, `7z`, `rar`, `tar`, `gz`, `ar`, `iso`, `xz`
-- **Documents**: `docx`, `doc`, `pdf`, `xlsx`, `xls`, `odt`, `ods`, `odp`, `odg`, `odf`, `txt`, `ps`, `tex`
-- **Applications**: `exe`, `dmg`, `pkg`, `deb`
+### 3. Help Command (`node main.js help`)
 
-**Commands**
+**Functionality:**
+- Displays a list of available commands
+- Provides usage instructions for the File Organizer tool
 
-The File Organizer offers the following functionalities:
+## Comments and Functionality Explained
 
-- **`tree`**: Displays a tree-like structure representing the file hierarchy within the specified directory.
+### Main Script Comments
 
-   **Example:**
+1. **Module Imports**
+```javascript
+const { log } = require('console');  // Logging utility
+const fs = require('fs');             // File system operations
+const path = require('path');          // Path manipulation
+```
 
-   ```bash
-   node main.js tree ~/Downloads
-   ```
+2. **Input Processing**
+```javascript
+const inputArr = process.argv.slice(2);  // Captures command-line arguments
+const command = inputArr[0];             // First argument is the command
+```
 
-- **`organize`**: Sorts files in the chosen directory based on their types. Organized files are placed within a newly created subfolder named `Organized_Files` inside the original directory.
+### File Categorization Comments
 
-   **Example:**
+```javascript
+// Predefined file type categories
+let types = {
+    media: ["mp4", "mkv","jpg", "jpeg", "png"],       // Multimedia files
+    archives: ['zip', '7z', 'rar', 'tar', 'gz'],      // Compressed files
+    documents: ['docx', 'doc', 'pdf', 'xlsx', 'txt'], // Document formats
+    app: ['exe', 'dmg', 'pkg', "deb"]                 // Executable files
+}
+```
 
-   ```bash
-   node main.js organize ~/Downloads
-   ```
+### Key Function Comments
 
-- **`help`**: Provides a list of available commands and their usage instructions.
+1. **Tree Function (`treeFn`):**
+```javascript
+function treeFn(dirPath){
+    // Check if directory path is provided
+    if (dirPath === undefined){
+        console.log("Please 🙏 Enter the directory path");
+        return;
+    }
+    
+    // Validate directory existence
+    if (!fs.existsSync(dirPath)){
+        console.log("Please 🙏 Enter the correct directory path");
+        return;
+    }
 
-   **Example:**
+    // Recursively display directory structure
+    TreeHelper(dirPath, "");
+}
+```
 
-   ```bash
-   node main.js help
-   ```
+2. **Organize Function (`organizeFn`):**
+```javascript
+function organizeFn(dirPath){
+    // Validate directory path
+    if (dirPath === undefined){
+        console.log("Please 🙏 Enter the directory path");
+        return;
+    }
 
-**Example Commands**
+    // Check directory existence
+    if (!fs.existsSync(dirPath)){
+        console.log("Please 🙏 Enter the correct directory path");
+        return;
+    }
 
-Here are some practical demonstrations of the commands:
+    // Create destination folder for organized files
+    const DestinationPath = path.join(dirPath, "Organized_Files");
+    if (!fs.existsSync(DestinationPath)){
+        fs.mkdirSync(DestinationPath);
+    }
 
-1. **Organize Downloads Directory:**
+    // Start organizing files
+    OrganizeHelper(dirPath, DestinationPath);
+}
+```
 
-   ```bash
-   node main.js organize ~/Downloads
-   ```
+3. **File Categorization (`getCategory`):**
+```javascript
+function getCategory(name) {
+    // Extract file extension
+    const ext = path.extname(name).slice(1);
+    
+    // Match extension with predefined categories
+    for (const type in types){
+        if (types[type].includes(ext)){
+            return type;
+        }
+    }
+}
+```
 
-   This command sorts the files in your Downloads folder (replace `~/Downloads` with the actual path if needed) and stores the organized files in a new subfolder named `Organized_Files` within the Downloads directory.
+### Error Handling and User Guidance
 
-2. **View File Structure of Documents:**
+- Checks for undefined directory paths
+- Validates directory existence
+- Provides user-friendly error messages
+- Uses emoji (🙏) for friendly communication
 
-   ```bash
-   node main.js tree ~/Documents
-   ```
+## Limitations and Potential Improvements
 
-   This command displays the directory tree structure of your Documents folder (replace `~/Documents` with the actual path like `C:\Users\Tharunbalaji\Downloads` if needed).
+- Currently supports a fixed set of file extensions
+- No handling for nested directories in organize mode
+- Limited error handling for file system permissions
 
-**Additional Considerations**
+## Contributing
 
-- Consider error handling in the `main.js` script to gracefully handle situations like file system permission issues, invalid paths, or unsupported file types.
-- You could explore adding an option to customize the name of the `Organized_Files` subfolder to provide more user control.
-- For larger directories, implementing progress indicators could enhance the user experience.
+Suggestions for improvements:
+- Add more file type categories
+- Implement recursive directory organization
+- Enhance error handling
+- Add logging mechanisms
 
-By incorporating these enhancements, you can create a more robust and user-friendly File Organizer tool.
+## License
+
+Distributed under the MIT License.

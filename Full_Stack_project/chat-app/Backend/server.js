@@ -27,5 +27,5 @@ app.use("/api/users",protectRoute, userRoutes);
 
 server.listen(PORT, function () {
   connectToMongoDB();
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}...`);
 });
