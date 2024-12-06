@@ -28,6 +28,10 @@ A full-stack MERN application that replicates the core functionalities of BookMy
 - User management
 - Booking analytics
 
+## 🖥️ Live Demo
+
+[View Live Application](https://bms-deploy.onrender.com/)
+
 ## Tech Stack
 
 ### Frontend
@@ -170,19 +174,42 @@ bookmyshow-clone/
 }
 ```
 
-## Screenshots
+## 🖼️ Preview
 
+### Login Page
 [![Login Page](image.png)]
+
+### Sign-up Page
 ![Sign-up Page](image-1.png)
+
+### Home Page
 ![Home Page](image-2.png)
+
+### Admin Dashboard
 ![Admin Dashboard](image-3.png)
+
+### Admin Theater Details
 ![Admin Theater Details](image-4.png)
+
+### Available Movies
 ![avaliable shows](image-5.png)
+
+### Movie Details
 ![available seats](image-6.png)
+
+### Booking
 ![Book a ticket](image-7.png)
+
+### Payment
 ![making payment](image-8.png)
+
+### Bookings
 ![adding card](image-9.png)
+
+### Booking History
 ![booked tickets](image-10.png)
+
+### Add Theater
 ![Adding theater](image-11.png)
 
 ## Future Enhancements
