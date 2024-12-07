@@ -8,6 +8,7 @@ ShareFun is a comprehensive full-stack social media application designed to prov
 - [Project Overview](#-project-overview)
 - [Technologies](#-technologies)
 - [Features](#-features)
+- [Preview](#-preview)
 - [Project Structure](#-project-structure)
 - [State Management](#-state-management)
 - [Backend Architecture](#-backend-architecture)
@@ -60,6 +61,36 @@ ShareFun is a comprehensive full-stack social media application designed to prov
 - Responsive design
 - Light/Dark theme toggle
 - Profile customization
+
+
+## 🖼️ Preview
+
+### Login Page
+![Login Page](image.png)
+
+### Signup Page
+![Signup Page](image-1.png)
+
+### Verification mail
+![Verification mail](image-2.png)
+
+### Email verification
+![Email verification](image-3.png)
+
+### Password reset Mail
+![Password reset Mail](image-4.png)
+
+### Password reset Page
+![Password reset Page](image-5.png)
+
+### Home Page
+![Home Page](image-6.png)
+
+### Profile Page
+![Profile Page](image-7.png)
+
+### commenting on post
+![commenting on post](image-8.png)
 
 ## 📂 Project Structure
 
