@@ -279,7 +279,7 @@ The client-side routes are managed using React Router DOM:
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/your-username/blog-app.git`
+1. Clone the repository: `git clone https://github.com/Tharun-Balaji/mern-blog.git`
 2. Install dependencies:
    - Frontend: `cd client && npm install`
    - Backend: `cd server && npm install`
